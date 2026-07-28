@@ -1,4 +1,15 @@
 -- ============================================================
+-- Schéma
+-- ============================================================
+
+DROP SCHEMA IF EXISTS observatoire CASCADE;
+
+CREATE SCHEMA observatoire;
+
+SET search_path TO observatoire;
+
+
+-- ============================================================
 -- DIMENSION DATE
 -- ============================================================
 
@@ -23,13 +34,63 @@ COMMENT ON COLUMN dim_date.date_id
 IS 'Date complète (clé primaire)';
 
 COMMENT ON COLUMN dim_date.annee
-IS 'Year';
+IS 'Année';
 
 COMMENT ON COLUMN dim_date.trimestre
-IS 'Quarter';
+IS 'Trimestre';
 
 COMMENT ON COLUMN dim_date.mois
-IS 'Month';
+IS 'Mois';
+
+
+-- ============================================================
+-- DIMENSION COMMUNE
+-- ============================================================
+
+CREATE TABLE dim_commune (
+
+    code_commune VARCHAR(5) PRIMARY KEY,
+
+    libelle_commune VARCHAR(100) NOT NULL,
+
+    code_departement VARCHAR(3) NOT NULL
+
+);
+
+COMMENT ON TABLE dim_commune
+IS 'Dimension des communes';
+
+
+-- ============================================================
+-- DIMENSION ACTIVITE
+-- ============================================================
+
+CREATE TABLE dim_activite (
+
+    code_ape VARCHAR(10) PRIMARY KEY,
+
+    nomenclature VARCHAR(20) NOT NULL
+
+);
+
+COMMENT ON TABLE dim_activite
+IS 'Dimension des activités (NAF Rev1, Rev2...)';
+
+
+-- ============================================================
+-- DIMENSION TRANCHE EFFECTIFS
+-- ============================================================
+
+CREATE TABLE dim_tranche_effectifs (
+
+    code_tranche VARCHAR(5) PRIMARY KEY,
+
+    libelle VARCHAR(100) NOT NULL
+
+);
+
+COMMENT ON TABLE dim_tranche_effectifs
+IS 'Dimension des tranches d''effectifs';
 
 
 -- ============================================================
@@ -55,10 +116,7 @@ CREATE TABLE fait_etablissement_version (
     etat VARCHAR(20) NOT NULL,
 
     CONSTRAINT pk_fait_etablissement_version
-        PRIMARY KEY (
-            siret,
-            valid_from
-        ),
+        PRIMARY KEY (siret, valid_from),
 
     CONSTRAINT fk_valid_from
         FOREIGN KEY (valid_from)
@@ -93,3 +151,50 @@ CREATE TABLE fait_etablissement_version (
 
 COMMENT ON TABLE fait_etablissement_version
 IS 'Historisation SCD2 des établissements SIRENE';
+
+
+-- ============================================================
+-- INDEX
+-- ============================================================
+
+CREATE INDEX idx_fait_siret
+ON fait_etablissement_version(siret);
+
+CREATE INDEX idx_fait_valid_from
+ON fait_etablissement_version(valid_from);
+
+CREATE INDEX idx_fait_valid_to
+ON fait_etablissement_version(valid_to);
+
+CREATE INDEX idx_fait_current
+ON fait_etablissement_version(is_current);
+
+CREATE INDEX idx_fait_commune
+ON fait_etablissement_version(code_commune);
+
+CREATE INDEX idx_fait_ape
+ON fait_etablissement_version(code_ape);
+
+CREATE INDEX idx_fait_tranche
+ON fait_etablissement_version(code_tranche);
+
+
+-- ============================================================
+-- VUES
+-- ============================================================
+
+CREATE OR REPLACE VIEW v_etablissement_courant AS
+SELECT *
+FROM fait_etablissement_version
+WHERE is_current = TRUE;
+
+CREATE OR REPLACE VIEW v_etablissement_actif AS
+SELECT *
+FROM fait_etablissement_version
+WHERE is_current = TRUE
+  AND etat = 'Actif';
+
+
+-- ============================================================
+-- FIN
+-- ============================================================
