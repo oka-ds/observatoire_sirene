@@ -11,7 +11,7 @@ HISTORIQUE_PARQUET_URL = (
     "2b3a0c79-f97b-46b8-ac02-8be6c1f01a8c"
 )
 
-TABLE_NAME = "sirene_etablissement_historique_echantillon_69"
+TABLE_NAME = "sirene_etablissement_historique"
 SCHEMA_NAME = "public"
 
 def load_histo(code_dept: str = None):

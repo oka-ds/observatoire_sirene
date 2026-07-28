@@ -11,7 +11,7 @@ PARQUET_URL = (
     "a29c1297-1f92-4e2a-8f6b-8c902ce96c5f"
 )
 
-TABLE_NAME = "sirene_etablissement_echantillon_69"
+TABLE_NAME = "sirene_etablissement"
 SCHEMA_NAME = "perso"
 
 def load_etab(code_dept: str = None):
