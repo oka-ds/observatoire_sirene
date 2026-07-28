@@ -1,0 +1,159 @@
+Voici le **MCD** (Modèle Conceptuel de Données) et le **MLD** (Modèle Logique de Données) correspondant à votre schéma d'entrepôt.
+
+---
+
+# 1. MCD (Modèle Conceptuel de Données)
+
+Le MCD représente les entités métier et leurs associations, sans tenir compte des types SQL.
+
+```mermaid
+erDiagram
+
+    DIM_DATE {
+        DATE date_id
+        INT annee
+        INT trimestre
+        INT mois
+    }
+
+    DIM_COMMUNE {
+        VARCHAR code_commune
+        VARCHAR libelle_commune
+        VARCHAR code_departement
+    }
+
+    DIM_ACTIVITE {
+        VARCHAR code_ape
+        VARCHAR nomenclature
+    }
+
+    DIM_TRANCHE_EFFECTIFS {
+        VARCHAR code_tranche
+        VARCHAR libelle
+    }
+
+    FAIT_ETABLISSEMENT_VERSION {
+        VARCHAR siret
+        DATE valid_from
+        DATE valid_to
+        BOOLEAN is_current
+        VARCHAR etat
+    }
+
+    DIM_DATE ||--o{ FAIT_ETABLISSEMENT_VERSION : "valid_from"
+
+    DIM_DATE ||--o{ FAIT_ETABLISSEMENT_VERSION : "valid_to"
+
+    DIM_COMMUNE ||--o{ FAIT_ETABLISSEMENT_VERSION : "localise"
+
+    DIM_ACTIVITE ||--o{ FAIT_ETABLISSEMENT_VERSION : "exerce"
+
+    DIM_TRANCHE_EFFECTIFS ||--o{ FAIT_ETABLISSEMENT_VERSION : "emploie"
+```
+
+---
+
+# 2. MLD (Modèle Logique de Données)
+
+Le MLD montre les clés primaires (PK) et étrangères (FK).
+
+```mermaid
+erDiagram
+
+    DIM_DATE {
+
+        DATE date_id PK
+
+        INT annee
+
+        INT trimestre
+
+        INT mois
+
+    }
+
+    DIM_COMMUNE {
+
+        VARCHAR code_commune PK
+
+        VARCHAR libelle_commune
+
+        VARCHAR code_departement
+
+    }
+
+    DIM_ACTIVITE {
+
+        VARCHAR code_ape PK
+
+        VARCHAR nomenclature
+
+    }
+
+    DIM_TRANCHE_EFFECTIFS {
+
+        VARCHAR code_tranche PK
+
+        VARCHAR libelle
+
+    }
+
+    FAIT_ETABLISSEMENT_VERSION {
+
+        VARCHAR siret PK
+
+        DATE valid_from PK, FK
+
+        DATE valid_to FK
+
+        BOOLEAN is_current
+
+        VARCHAR code_commune FK
+
+        VARCHAR code_ape FK
+
+        VARCHAR code_tranche FK
+
+        VARCHAR etat
+
+    }
+
+    DIM_DATE ||--o{ FAIT_ETABLISSEMENT_VERSION : valid_from
+
+    DIM_DATE ||--o{ FAIT_ETABLISSEMENT_VERSION : valid_to
+
+    DIM_COMMUNE ||--o{ FAIT_ETABLISSEMENT_VERSION : code_commune
+
+    DIM_ACTIVITE ||--o{ FAIT_ETABLISSEMENT_VERSION : code_ape
+
+    DIM_TRANCHE_EFFECTIFS ||--o{ FAIT_ETABLISSEMENT_VERSION : code_tranche
+```
+
+---
+
+## Schéma en étoile (Vue décisionnelle)
+
+Il est souvent apprécié dans un rapport ou un mémoire de montrer également la vision "Data Warehouse" :
+
+```text
+                     DIM_DATE
+                        |
+                        |
+DIM_COMMUNE ----- FAIT_ETABLISSEMENT_VERSION ----- DIM_ACTIVITE
+                        |
+                        |
+             DIM_TRANCHE_EFFECTIFS
+```
+
+* **Table de faits :**
+
+  * `FAIT_ETABLISSEMENT_VERSION` (historisation SCD Type 2)
+
+* **Dimensions :**
+
+  * `DIM_DATE`
+  * `DIM_COMMUNE`
+  * `DIM_ACTIVITE`
+  * `DIM_TRANCHE_EFFECTIFS`
+
+Cette représentation met en évidence le modèle en étoile avec une table de faits centrale reliée à quatre dimensions, ce qui correspond aux bonnes pratiques d'un entrepôt de données décisionnel.

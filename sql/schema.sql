@@ -1,31 +1,4 @@
 -- ============================================================
--- OBSERVATOIRE SIRENE
--- Création complète du schéma de l'entrepôt
--- ============================================================
-
--- ============================================================
--- Création de la base (à lancer connecté sur postgres)
--- ============================================================
-
-DROP DATABASE IF EXISTS observatoire_sirene;
-CREATE DATABASE observatoire_sirene;
-
--- Se reconnecter ensuite :
--- \c observatoire_sirene
-
-
--- ============================================================
--- Schéma
--- ============================================================
-
-DROP SCHEMA IF EXISTS observatoire CASCADE;
-
-CREATE SCHEMA observatoire;
-
-SET search_path TO observatoire;
-
-
--- ============================================================
 -- DIMENSION DATE
 -- ============================================================
 
@@ -33,12 +6,12 @@ CREATE TABLE dim_date (
 
     date_id DATE PRIMARY KEY,
 
-    annee SMALLINT NOT NULL,
+    annee INT NOT NULL,
 
-    trimestre SMALLINT NOT NULL
+    trimestre INT NOT NULL
         CHECK (trimestre BETWEEN 1 AND 4),
 
-    mois SMALLINT NOT NULL
+    mois INT NOT NULL
         CHECK (mois BETWEEN 1 AND 12)
 
 );
@@ -49,55 +22,14 @@ IS 'Dimension calendrier';
 COMMENT ON COLUMN dim_date.date_id
 IS 'Date complète (clé primaire)';
 
+COMMENT ON COLUMN dim_date.annee
+IS 'Year';
 
--- ============================================================
--- DIMENSION COMMUNE
--- ============================================================
+COMMENT ON COLUMN dim_date.trimestre
+IS 'Quarter';
 
-CREATE TABLE dim_commune (
-
-    code_commune VARCHAR(5) PRIMARY KEY,
-
-    libelle_commune VARCHAR(100) NOT NULL,
-
-    code_departement VARCHAR(3) NOT NULL
-
-);
-
-COMMENT ON TABLE dim_commune
-IS 'Dimension des communes';
-
-
--- ============================================================
--- DIMENSION ACTIVITE
--- ============================================================
-
-CREATE TABLE dim_activite (
-
-    code_ape VARCHAR(10) PRIMARY KEY,
-
-    nomenclature VARCHAR(20) NOT NULL
-
-);
-
-COMMENT ON TABLE dim_activite
-IS 'Dimension des activités (NAF Rev1, Rev2...)';
-
-
--- ============================================================
--- DIMENSION TRANCHE EFFECTIFS
--- ============================================================
-
-CREATE TABLE dim_tranche_effectifs (
-
-    code_tranche VARCHAR(5) PRIMARY KEY,
-
-    libelle VARCHAR(100) NOT NULL
-
-);
-
-COMMENT ON TABLE dim_tranche_effectifs
-IS 'Dimension des tranches d''effectifs';
+COMMENT ON COLUMN dim_date.mois
+IS 'Month';
 
 
 -- ============================================================
@@ -106,7 +38,7 @@ IS 'Dimension des tranches d''effectifs';
 
 CREATE TABLE fait_etablissement_version (
 
-    siret CHAR(14) NOT NULL,
+    siret VARCHAR(14) NOT NULL,
 
     valid_from DATE NOT NULL,
 
@@ -120,7 +52,7 @@ CREATE TABLE fait_etablissement_version (
 
     code_tranche VARCHAR(5),
 
-    etat CHAR(1) NOT NULL,
+    etat VARCHAR(20) NOT NULL,
 
     CONSTRAINT pk_fait_etablissement_version
         PRIMARY KEY (
@@ -149,7 +81,7 @@ CREATE TABLE fait_etablissement_version (
         REFERENCES dim_tranche_effectifs(code_tranche),
 
     CONSTRAINT chk_etat
-        CHECK (etat IN ('A','F')),
+        CHECK (etat IN ('Actif', 'Fermé')),
 
     CONSTRAINT chk_dates
         CHECK (
@@ -161,57 +93,3 @@ CREATE TABLE fait_etablissement_version (
 
 COMMENT ON TABLE fait_etablissement_version
 IS 'Historisation SCD2 des établissements SIRENE';
-
-
--- ============================================================
--- INDEX
--- ============================================================
-
-CREATE INDEX idx_fait_siret
-ON fait_etablissement_version(siret);
-
-CREATE INDEX idx_fait_valid_from
-ON fait_etablissement_version(valid_from);
-
-CREATE INDEX idx_fait_valid_to
-ON fait_etablissement_version(valid_to);
-
-CREATE INDEX idx_fait_current
-ON fait_etablissement_version(is_current);
-
-CREATE INDEX idx_fait_commune
-ON fait_etablissement_version(code_commune);
-
-CREATE INDEX idx_fait_ape
-ON fait_etablissement_version(code_ape);
-
-CREATE INDEX idx_fait_tranche
-ON fait_etablissement_version(code_tranche);
-
-
--- ============================================================
--- VUES UTILES
--- ============================================================
-
-CREATE OR REPLACE VIEW v_etablissement_courant AS
-
-SELECT *
-
-FROM fait_etablissement_version
-
-WHERE is_current = TRUE;
-
-
-CREATE OR REPLACE VIEW v_etablissement_actif AS
-
-SELECT *
-
-FROM fait_etablissement_version
-
-WHERE is_current = TRUE
-AND etat = 'A';
-
-
--- ============================================================
--- FIN
--- ============================================================
