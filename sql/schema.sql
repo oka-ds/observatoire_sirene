@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS {faits} (
 
     etat VARCHAR(20) NOT NULL,
 
-    CONSTRAINT {pk_faits}
+    CONSTRAINT pk_faits
         PRIMARY KEY (siret, valid_from),
 
     CONSTRAINT fk_valid_from
