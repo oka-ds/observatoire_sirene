@@ -9,7 +9,10 @@ from pathlib import Path
 env_path = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
 
-def push_scd2(schema_name: str, table_name: str):
+def push_scd2(schema_name: str, table_name: str, test: bool = False):
+    
+    target_schema = config.Schemas.test if test else config.Schemas.warehouse
+    
     tracemalloc.start()
     start_time = time.perf_counter()
 
@@ -111,7 +114,7 @@ def push_scd2(schema_name: str, table_name: str):
     WHERE cle IS DISTINCT FROM cle_prec;
 
     -- INSERT dim_commune
-    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.DIM_COMMUNE} (
+    INSERT INTO pg_db.{target_schema}.{config.TablesObservatoire.DIM_COMMUNE} (
         code_commune, libelle_commune, code_departement
     )
     SELECT DISTINCT
@@ -120,7 +123,7 @@ def push_scd2(schema_name: str, table_name: str):
     ON CONFLICT (code_commune) DO NOTHING;
     
     -- INSERT dim_activite
-    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.DIM_ACTIVITE} (
+    INSERT INTO pg_db.{target_schema}.{config.TablesObservatoire.DIM_ACTIVITE} (
         code_ape, nomenclature
     )
     SELECT DISTINCT
@@ -129,7 +132,7 @@ def push_scd2(schema_name: str, table_name: str):
     ON CONFLICT (code_ape) DO NOTHING;
     
     -- INSERT dim_tranche_effectifs
-    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.DIM_TRANCHE} (
+    INSERT INTO pg_db.{target_schema}.{config.TablesObservatoire.DIM_TRANCHE} (
         code_tranche, libelle
     )
     SELECT DISTINCT
@@ -138,7 +141,7 @@ def push_scd2(schema_name: str, table_name: str):
     ON CONFLICT (code_tranche) DO NOTHING;
     
     -- INSERT fact
-    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.FAIT_ETAB} (
+    INSERT INTO pg_db.{target_schema}.{config.TablesObservatoire.FAIT_ETAB} (
         siret, valid_from, valid_to, is_current, etat, code_ape, 
         code_commune, code_tranche
     )

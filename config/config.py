@@ -1,16 +1,10 @@
 from enum import StrEnum
 
-PARQUET_URL = (
-    "https://www.data.gouv.fr/api/1/datasets/r/"
-    "a29c1297-1f92-4e2a-8f6b-8c902ce96c5f"
-)
-
-HISTORIQUE_PARQUET_URL = (
-    "https://www.data.gouv.fr/api/1/datasets/r/"
-    "2b3a0c79-f97b-46b8-ac02-8be6c1f01a8c"
-)
-
 TABLE_NAME = "sirene_etablissement"
+TABLE_TEST_NAME = "test_sirene_etablissement"
+
+def get_schema(test: bool):
+    Schemas.test if test else Schemas.warehouse
 
 class Urls(StrEnum):
     etablissements = "https://www.data.gouv.fr/api/1/datasets/r/a29c1297-1f92-4e2a-8f6b-8c902ce96c5f"

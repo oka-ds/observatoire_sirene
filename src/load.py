@@ -69,7 +69,7 @@ class DatabaseManager:
         self._create_database_if_not_exists()
         
         context = {
-            "schema": config.Schemas.test if test else config.Schemas.warehouse,
+            "schema": config.get_schema(test),
             "dim_date": config.TablesObservatoire.DIM_DATE,
             "dim_commune": config.TablesObservatoire.DIM_COMMUNE,
             "dim_activite": config.TablesObservatoire.DIM_ACTIVITE,
@@ -82,17 +82,18 @@ class DatabaseManager:
             formatted_sql = sql_template.format(**context)
             cur.execute(formatted_sql)
             
-        self._insert_date()
+        self._insert_date(test)
         
-    def refresh_observatoire(self):
-        self._drop_observatoires_tables()
-        self.create_schema()
+    def refresh_observatoire(self, test: bool = False):
+        self._drop_observatoires_tables(test)
+        self.create_schema(test)
             
-    def _drop_observatoires_tables(self):
+    def _drop_observatoires_tables(self, test: bool = True):
+        
         with self.get_connection() as cur:
             try:
                 for table in config.TablesObservatoire:
-                    query = f"DROP TABLE IF EXISTS {config.Schemas.warehouse}.{table} CASCADE;"
+                    query = f"DROP TABLE IF EXISTS {config.get_schema(test)}.{table} CASCADE;"
                     print(f"Suppression de la table : {table}")
                     cur.execute(query)
                     
@@ -101,10 +102,10 @@ class DatabaseManager:
                 print(f"Erreur lors de la suppression : {e}")
 
             
-    def _insert_date(self):
+    def _insert_date(self, test: bool = False):
         with self.get_connection() as cur:
             q = f"""
-            INSERT INTO {config.Schemas.warehouse}.dim_date (date_id, annee, trimestre, mois)
+            INSERT INTO {config.get_schema(test)}.{config.TablesObservatoire.DIM_DATE} (date_id, annee, trimestre, mois)
             SELECT 
                 d::DATE AS date_id,
                 EXTRACT(YEAR FROM d)::INT AS annee,

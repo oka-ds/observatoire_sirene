@@ -10,6 +10,7 @@ def main():
         schema_name=config.Schemas.public, 
         table_name=config.TABLE_NAME
         )
+    print(f"raw: {raw_rows} lines")
     if raw_rows == 0:
         load_etab('69')
     
@@ -17,6 +18,7 @@ def main():
         schema_name=config.Schemas.warehouse, 
         table_name=config.TablesObservatoire.FAIT_ETAB
         )
+    print(f"warehouse: {warehouse_rows} lines")
     if warehouse_rows == 0:
         push_scd2(config.Schemas.public, config.TABLE_NAME)
 
