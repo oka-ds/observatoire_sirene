@@ -3,10 +3,11 @@ from dotenv import load_dotenv
 import duckdb
 import tracemalloc
 import time
+import config
 
 load_dotenv()
 
-def count_scd2(schema_name: str, table_name: str):
+def push_scd2(schema_name: str, table_name: str):
     tracemalloc.start()
     start_time = time.perf_counter()
 
@@ -18,10 +19,22 @@ def count_scd2(schema_name: str, table_name: str):
 
     ATTACH '{db_url}' AS pg_db (TYPE POSTGRES);
 
-    CREATE OR REPLACE FUNCTION {schema_name}.get_tranche_effectif(colonne_effectif TEXT)
-        RETURNS TEXT AS $$
-        BEGIN
-            RETURN CASE colonne_effectif
+    -- 1. Materialize the SCD2 logic into a temporary table in DuckDB
+    CREATE OR REPLACE TEMP TABLE scd2 AS 
+    WITH source_data AS (
+        SELECT 
+            CAST(siret AS VARCHAR) AS siret,
+            CAST(dateDebut AS DATE) AS date_debut,
+            CASE CAST(etatAdministratifEtablissement AS VARCHAR)
+                WHEN 'A' THEN 'A'
+                WHEN 'F' THEN 'F'
+                ELSE 'A'
+            END AS etat,
+            COALESCE(CAST(activitePrincipaleEtablissement AS VARCHAR), '00000') AS code_ape,
+            COALESCE(CAST(codeCommuneEtablissement AS VARCHAR(5)), '99999') as code_commune,
+            COALESCE(CAST(nomenclatureActivitePrincipaleEtablissement AS VARCHAR), 'Inconnu') as libelle_ape,
+            COALESCE(CAST(trancheEffectifsEtablissement AS VARCHAR), '99') as code_tranche,
+            CASE COALESCE(CAST(trancheEffectifsEtablissement AS VARCHAR), '99')
                 WHEN 'NN' THEN 'non renseigné'
                 WHEN '00' THEN '0 salarié'
                 WHEN '01' THEN '1-2'
@@ -38,22 +51,9 @@ def count_scd2(schema_name: str, table_name: str):
                 WHEN '51' THEN '2000-4999'
                 WHEN '52' THEN '5000-9999'
                 WHEN '53' THEN '10000+'
-                ELSE 'inconnu'
-            END;
-        END;
-    $$ LANGUAGE plpgsql IMMUTABLE;
-
-    WITH source_data AS (
-        SELECT 
-            CAST(siret AS VARCHAR) AS siret,
-            CAST(dateDebut AS DATE) AS date_debut,
-            CAST(etatAdministratif_etablissement AS VARCHAR) AS etat,
-            CAST(activitePrincipale_etablissement AS VARCHAR) AS code_ape,
-            CAOALESCE(CAST(codeCommuneEtablissement AS VARCHAR(5)), '99999') as code_commune,
-            CAST(nomenclatureActivitePrincipale_etablissement AS VARCHAR) as libelle_ape,
-            COALESCE(CAST(trancheEffectifsEtablissement AS VARCHAR), '99') as code_tranche,
-            COALESCE(get_tranche_effectif('trancheEffectifsEtablissement'), 'Inconnu / Non renseigné') as effectif_libelle,
-            COALESCE(CAST(UPPER(libelleCommuneEtablissement) AS VARCHAR), 'Inconnu / Non renseigné') as libelle_commune
+                ELSE 'Inconnu / Non renseigné'
+            END as effectif_libelle,
+            COALESCE(CAST(UPPER(libelleCommuneEtablissement) AS VARCHAR), 'Inconnu / Non renseigné') as libelle_commune,
             COALESCE(CAST(LEFT(codeCommuneEtablissement, 2) AS VARCHAR(2)), '99') as code_departement
         FROM pg_db.{schema_name}.{table_name}
     ),
@@ -71,7 +71,10 @@ def count_scd2(schema_name: str, table_name: str):
             libelle_commune,
             code_departement
         FROM source_data
-        WHERE date_debut IS NOT NULL AND siret IS NOT NULL
+        WHERE date_debut IS NOT NULL 
+          AND siret IS NOT NULL
+          AND date_debut >= DATE '1900-01-01'
+          AND date_debut <= CURRENT_DATE
     ),
     ranked AS (
         SELECT 
@@ -89,26 +92,51 @@ def count_scd2(schema_name: str, table_name: str):
             LAG(cle) OVER (PARTITION BY siret ORDER BY date_debut) AS cle_prec,
             LEAD(date_debut) OVER (PARTITION BY siret ORDER BY date_debut) AS valid_to
         FROM prepared
-    ),
-    scd2 AS (
-        SELECT 
-            siret,
-            date_debut AS valid_from,
-            valid_to,
-            CASE WHEN valid_to IS NULL THEN TRUE ELSE FALSE END AS is_current,
-            etat,
-            code_ape,
-            code_commune,
-            libelle_ape,
-            code_tranche,
-            effectif_libelle,
-            libelle_commune,
-            code_departement
-        FROM ranked
-        WHERE cle IS DISTINCT FROM cle_prec
     )
+    SELECT 
+        siret,
+        date_debut AS valid_from,
+        valid_to,
+        CASE WHEN valid_to IS NULL THEN TRUE ELSE FALSE END AS is_current,
+        etat,
+        code_ape,
+        code_commune,
+        libelle_ape,
+        code_tranche,
+        effectif_libelle,
+        libelle_commune,
+        code_departement
+    FROM ranked
+    WHERE cle IS DISTINCT FROM cle_prec;
+
+    -- 2. INSERT dim_commune
+    INSERT INTO pg_db.observatoire.dim_commune (
+        code_commune, libelle_commune, code_departement
+    )
+    SELECT DISTINCT
+        code_commune, libelle_commune, code_departement
+    FROM scd2
+    ON CONFLICT (code_commune) DO NOTHING;
     
-    -- INSERT fact
+    -- 3. INSERT dim_activite
+    INSERT INTO pg_db.observatoire.dim_activite (
+        code_ape, nomenclature
+    )
+    SELECT DISTINCT
+        code_ape, libelle_ape
+    FROM scd2
+    ON CONFLICT (code_ape) DO NOTHING;
+    
+    -- 4. INSERT dim_tranche_effectifs
+    INSERT INTO pg_db.observatoire.dim_tranche_effectifs (
+        code_tranche, libelle
+    )
+    SELECT DISTINCT
+        code_tranche, effectif_libelle
+    FROM scd2
+    ON CONFLICT (code_tranche) DO NOTHING;
+    
+    -- 5. INSERT fact
     INSERT INTO pg_db.observatoire.fait_etablissement_version (
         siret, valid_from, valid_to, is_current, etat, code_ape, 
         code_commune, code_tranche
@@ -116,38 +144,11 @@ def count_scd2(schema_name: str, table_name: str):
     SELECT
         siret, valid_from, valid_to, is_current, etat, code_ape, 
         code_commune, code_tranche
-    FROM scd2
-    
-    -- INSERT dim_commune
-    INSERT INTO pg_db.observatoire.dim_commune (
-        code_commune, libelle_commune, code_departement
-    )
-    SELECT 
-        code_commune, libelle_commune, code_departement
-    FROM scd2
-    
-    -- INSERT dim_activite
-    INSERT INTO pg_db.observatoire.dim_activite (
-        code_ape, nomenclature
-    )
-    SELECT 
-        code_ape, libelle_ape
-    FROM scd2
-    
-    -- INSERT dim_tranche_effectifs
-    INSERT INTO pg_db.observatoire.dim_tranche_effectifs (
-        code_tranche, libelle
-    )
-    SELECT
-        code_tranche, effectif_libelle
     FROM scd2;
     """
     
     connexion_duckdb = duckdb.connect()
     connexion_duckdb.execute(query)
-    
-    
-    
     connexion_duckdb.close()
 
     end_time = time.perf_counter()
@@ -160,7 +161,6 @@ def count_scd2(schema_name: str, table_name: str):
     print(f"Pic mémoire : {peak / 10**6:.2f} Mo")
 
     tracemalloc.stop()
-    
 
 if __name__ == "__main__":
-    count_scd2('raw_sources', 'stock_etablissements_histo')
+    push_scd2(config.SCHEMA_PUBLIC_NAME, config.TABLE_NAME)

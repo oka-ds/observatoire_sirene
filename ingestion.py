@@ -32,7 +32,11 @@ def load_etab(code_dept: str = None):
     DROP TABLE IF EXISTS pg_db.{SCHEMA_NAME}.{TABLE_NAME};
     
     CREATE TABLE pg_db.{SCHEMA_NAME}.{TABLE_NAME} AS 
-    SELECT h.*
+    SELECT 
+        h.*,
+        a.codeCommuneEtablissement,
+        a.libelleCommuneEtablissement,
+        a.trancheEffectifsEtablissement
     FROM read_parquet('{PARQUET_HISTO_URL}') h
     INNER JOIN read_parquet('{PARQUET_URL}') a 
         ON h.siret = a.siret

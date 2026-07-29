@@ -3,6 +3,7 @@ import psycopg2
 from contextlib import contextmanager
 from dotenv import load_dotenv
 from pathlib import Path
+import config
 
 load_dotenv()
 
@@ -68,3 +69,52 @@ class DatabaseManager:
         with open(self.file_path, "r", encoding="utf-8") as f, self.get_connection() as cur:
             sql_template = f.read()
             cur.execute(sql_template)
+            
+        self._insert_date()
+        
+    def refresh_observatoire(self):
+        self._drop_observatoires_tables()
+        self.create_schema()
+            
+    def _drop_observatoires_tables(self):
+        with self.get_connection() as cur:
+            try:
+                for table in config.TablesObservatoire:
+                    query = f"DROP TABLE IF EXISTS {table} CASCADE;"
+                    print(f"Suppression de la table : {table}")
+                    cur.execute(query)
+                    
+                print("Toutes les tables ont été supprimées avec succès.")
+            except Exception as e:
+                print(f"Erreur lors de la suppression : {e}")
+
+            
+    def _insert_date(self):
+        with self.get_connection() as cur:
+            q = f"""
+            INSERT INTO {config.WAREHOUSE_SCHEMA}.dim_date (date_id, annee, trimestre, mois)
+            SELECT 
+                d::DATE AS date_id,
+                EXTRACT(YEAR FROM d)::INT AS annee,
+                EXTRACT(QUARTER FROM d)::INT AS trimestre,
+                EXTRACT(MONTH FROM d)::INT AS mois
+            FROM generate_series(
+                DATE '1900-01-01',
+                CURRENT_DATE,
+                INTERVAL '1 day'
+            ) AS t(d)
+            ON CONFLICT (date_id) DO NOTHING;
+            """
+            cur.execute(q)
+            
+
+    def count_rows(self, schema_name: str, table_name: str) -> int:
+        with self.get_connection() as cur:
+            q = f"""
+            SELECT COUNT(*) FROM {schema_name}.{table_name}
+            """
+            try:
+                cur.execute(q)
+                return cur.fetchone()[0]
+            except psycopg2.errors.UndefinedTable:
+                return 0

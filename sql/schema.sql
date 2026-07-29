@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS fait_etablissement_version (
         REFERENCES dim_tranche_effectifs(code_tranche),
 
     CONSTRAINT chk_etat
-        CHECK (etat IN ('Actif', 'Fermé')),
+        CHECK (etat IN ('A', 'F')),
 
     CONSTRAINT chk_dates
         CHECK (
