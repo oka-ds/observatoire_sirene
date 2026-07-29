@@ -4,7 +4,7 @@ TABLE_NAME = "sirene_etablissement"
 TABLE_TEST_NAME = "test_sirene_etablissement"
 
 def get_schema(test: bool):
-    Schemas.test if test else Schemas.warehouse
+    return Schemas.test if test else Schemas.warehouse
 
 class Urls(StrEnum):
     etablissements = "https://www.data.gouv.fr/api/1/datasets/r/a29c1297-1f92-4e2a-8f6b-8c902ce96c5f"

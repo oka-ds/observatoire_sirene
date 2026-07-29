@@ -11,7 +11,7 @@ load_dotenv(dotenv_path=env_path)
 
 def push_scd2(schema_name: str, table_name: str, test: bool = False):
     
-    target_schema = config.Schemas.test if test else config.Schemas.warehouse
+    target_schema = config.get_schema(test)
     
     tracemalloc.start()
     start_time = time.perf_counter()
