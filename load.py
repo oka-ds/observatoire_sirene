@@ -14,10 +14,10 @@ class DatabaseManager:
         self.password = os.environ.get("DB_PASSWORD")
         self.db_name = os.environ.get("DB_NAME")
         
-        file_path = Path("sql/schema.sql")
+        self.file_path = Path("sql/schema.sql")
                 
-        if not file_path.exists():
-            raise FileNotFoundError("Le fichier schema.sql est introuvable.")
+        if not self.file_path.exists():
+            raise FileNotFoundError(f"Le fichier {self.file_path} est introuvable.")
         
         self.create_schema()
         
@@ -65,6 +65,6 @@ class DatabaseManager:
     def create_schema(self):
         self._create_database_if_not_exists()
         
-        with open("schema.sql", "r", encoding="utf-8") as f, self.get_connection() as cur:
+        with open(self.file_path, "r", encoding="utf-8") as f, self.get_connection() as cur:
             sql_template = f.read()
             cur.execute(sql_template)
