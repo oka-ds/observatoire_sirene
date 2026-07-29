@@ -3,9 +3,11 @@ from dotenv import load_dotenv
 import duckdb
 import tracemalloc
 import time
-import config
+import config.config as config
+from pathlib import Path
 
-load_dotenv()
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 def push_scd2(schema_name: str, table_name: str):
     tracemalloc.start()

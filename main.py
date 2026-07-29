@@ -1,7 +1,7 @@
-from ingestion import load_etab
-from load import DatabaseManager
-import config
-from historisation import push_scd2
+from src.ingestion import load_etab
+from src.load import DatabaseManager
+import config.config as config
+from src.historisation import push_scd2
 
 def main():
     db = DatabaseManager()

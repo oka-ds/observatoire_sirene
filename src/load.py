@@ -3,9 +3,11 @@ import psycopg2
 from contextlib import contextmanager
 from dotenv import load_dotenv
 from pathlib import Path
-import config
+import config.config as config
+from pathlib import Path
 
-load_dotenv()
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 class DatabaseManager:
     def __init__(self):

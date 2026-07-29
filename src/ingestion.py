@@ -2,9 +2,11 @@ import os
 import sys
 import duckdb
 from dotenv import load_dotenv
-import config
+import config.config as config
+from pathlib import Path
 
-load_dotenv()
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 def load_etab(code_dept: str = None, test: bool = False):
     

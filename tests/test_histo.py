@@ -1,7 +1,7 @@
 import os
 import duckdb
 from dotenv import load_dotenv
-import config
+import config.config as config
 import sys
 
 load_dotenv()

@@ -3,8 +3,10 @@ from pathlib import Path
 import psycopg2
 from dotenv import load_dotenv
 from psycopg2 import sql
+from pathlib import Path
 
-load_dotenv()
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
