@@ -13,7 +13,7 @@ SET search_path TO observatoire;
 -- DIMENSION DATE
 -- ============================================================
 
-CREATE TABLE dim_date (
+CREATE TABLE IF NOT EXISTS dim_date (
 
     date_id DATE PRIMARY KEY,
 
@@ -47,7 +47,7 @@ IS 'Mois';
 -- DIMENSION COMMUNE
 -- ============================================================
 
-CREATE TABLE dim_commune (
+CREATE TABLE IF NOT EXISTS dim_commune (
 
     code_commune VARCHAR(5) PRIMARY KEY,
 
@@ -65,7 +65,7 @@ IS 'Dimension des communes';
 -- DIMENSION ACTIVITE
 -- ============================================================
 
-CREATE TABLE dim_activite (
+CREATE TABLE IF NOT EXISTS dim_activite (
 
     code_ape VARCHAR(10) PRIMARY KEY,
 
@@ -81,7 +81,7 @@ IS 'Dimension des activités (NAF Rev1, Rev2...)';
 -- DIMENSION TRANCHE EFFECTIFS
 -- ============================================================
 
-CREATE TABLE dim_tranche_effectifs (
+CREATE TABLE IF NOT EXISTS dim_tranche_effectifs (
 
     code_tranche VARCHAR(5) PRIMARY KEY,
 
@@ -97,7 +97,7 @@ IS 'Dimension des tranches d''effectifs';
 -- TABLE DE FAITS SCD2
 -- ============================================================
 
-CREATE TABLE fait_etablissement_version (
+CREATE TABLE IF NOT EXISTS fait_etablissement_version (
 
     siret VARCHAR(14) NOT NULL,
 
@@ -168,15 +168,6 @@ ON fait_etablissement_version(valid_to);
 
 CREATE INDEX idx_fait_current
 ON fait_etablissement_version(is_current);
-
-CREATE INDEX idx_fait_commune
-ON fait_etablissement_version(code_commune);
-
-CREATE INDEX idx_fait_ape
-ON fait_etablissement_version(code_ape);
-
-CREATE INDEX idx_fait_tranche
-ON fait_etablissement_version(code_tranche);
 
 
 -- ============================================================

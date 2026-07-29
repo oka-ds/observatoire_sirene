@@ -1,18 +1,15 @@
 import os
 import duckdb
 from dotenv import load_dotenv
-from sqlalchemy import URL, create_engine, text
+import config
 import sys
 
 load_dotenv()
 
-HISTORIQUE_PARQUET_URL = (
-    "https://www.data.gouv.fr/api/1/datasets/r/"
-    "2b3a0c79-f97b-46b8-ac02-8be6c1f01a8c"
-)
+HISTORIQUE_PARQUET_URL = config.HISTORIQUE_PARQUET_URL
 
-TABLE_NAME = "sirene_etablissement_historique"
-SCHEMA_NAME = "public"
+TABLE_NAME = config.TABLE_HISTO_NAME
+SCHEMA_NAME = config.SCHEMA_PUBLIC_NAME
 
 def load_histo(code_dept: str = None):
 
