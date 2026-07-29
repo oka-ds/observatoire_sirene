@@ -2,9 +2,7 @@
 -- Schéma
 -- ============================================================
 
-DROP SCHEMA IF EXISTS observatoire CASCADE;
-
-CREATE SCHEMA observatoire;
+CREATE SCHEMA IF NOT EXISTS observatoire;
 
 SET search_path TO observatoire;
 
@@ -157,35 +155,14 @@ IS 'Historisation SCD2 des établissements SIRENE';
 -- INDEX
 -- ============================================================
 
-CREATE INDEX idx_fait_siret
+CREATE INDEX IF NOT EXISTS idx_fait_siret
 ON fait_etablissement_version(siret);
 
-CREATE INDEX idx_fait_valid_from
+CREATE INDEX IF NOT EXISTS idx_fait_valid_from
 ON fait_etablissement_version(valid_from);
 
-CREATE INDEX idx_fait_valid_to
+CREATE INDEX IF NOT EXISTS idx_fait_valid_to
 ON fait_etablissement_version(valid_to);
 
-CREATE INDEX idx_fait_current
+CREATE INDEX IF NOT EXISTS idx_fait_current
 ON fait_etablissement_version(is_current);
-
-
--- ============================================================
--- VUES
--- ============================================================
-
-CREATE OR REPLACE VIEW v_etablissement_courant AS
-SELECT *
-FROM fait_etablissement_version
-WHERE is_current = TRUE;
-
-CREATE OR REPLACE VIEW v_etablissement_actif AS
-SELECT *
-FROM fait_etablissement_version
-WHERE is_current = TRUE
-  AND etat = 'Actif';
-
-
--- ============================================================
--- FIN
--- ============================================================

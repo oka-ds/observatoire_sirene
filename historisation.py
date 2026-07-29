@@ -17,7 +17,7 @@ def count_scd2(schema_name: str, table_name: str):
     LOAD postgres;
 
     ATTACH '{db_url}' AS pg_db (TYPE POSTGRES);
-    
+
     CREATE OR REPLACE FUNCTION {schema_name}.get_tranche_effectif(colonne_effectif TEXT)
         RETURNS TEXT AS $$
         BEGIN
@@ -142,9 +142,13 @@ def count_scd2(schema_name: str, table_name: str):
         code_tranche, effectif_libelle
     FROM scd2;
     """
-
-    total_rows = duckdb.sql(query).fetchone()[0]
-    print(f"Nombre total de lignes SCD2 : {total_rows}")
+    
+    connexion_duckdb = duckdb.connect()
+    connexion_duckdb.execute(query)
+    
+    
+    
+    connexion_duckdb.close()
 
     end_time = time.perf_counter()
 

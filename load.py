@@ -1,38 +1,70 @@
-import pandas as pd
-from sqlalchemy import create_engine
-from dotenv import load_dotenv
 import os
-from load import clean_data
+import psycopg2
+from contextlib import contextmanager
+from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 
-def load_data(source_table_name: str, target_table_name: str):
-    engine = create_engine(os.getenv('DATABASE_URL'))
-    df = pd.read_sql(
-        # TODO change columns name (here column from table, then rename in clean)
-        f"SELECT * FROM {source_table_name}",
-        columns=["siret", "dateDebut", "etat", "code_ape", "code_commune", "code_tranche"],
-        con=engine
-    )
-    
-    df = clean_data(df)
-    
-    df = df.sort_values(["siret", "dateDebut"])
+class DatabaseManager:
+    def __init__(self):
+        self.host = os.environ.get("DB_HOST", "localhost")
+        self.port = os.environ.get("DB_PORT", "5432")
+        self.user = os.environ.get("DB_USER")
+        self.password = os.environ.get("DB_PASSWORD")
+        self.db_name = os.environ.get("DB_NAME")
+        
+        file_path = Path("sql/schema.sql")
+                
+        if not file_path.exists():
+            raise FileNotFoundError("Le fichier schema.sql est introuvable.")
+        
+        self.create_schema()
+        
+    @contextmanager
+    def get_connection(self, dbname=None):
+        conn = psycopg2.connect(
+            host=self.host,
+            port=self.port,
+            user=self.user,
+            password=self.password,
+            dbname=dbname or self.db_name
+        )
+        cur = conn.cursor()
+        try:
+            yield cur
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            raise e
+        finally:
+            cur.close()
+            conn.close()
+            
+    def _create_database_if_not_exists(self):
+        conn = psycopg2.connect(
+            host=self.host, 
+            port=self.port, 
+            user=self.user, 
+            password=self.password, 
+            dbname="postgres"
+        )
+        conn.autocommit = True
+        cur = conn.cursor()
+        
+        try:
+            cur.execute("SELECT 1 FROM pg_database WHERE datname = %s;", (self.db_name,))
+            if not cur.fetchone():
+                cur.execute(f"CREATE DATABASE {self.db_name};")
+            else:
+                print(f"La base de données '{self.db_name}' existe déjà.")
+        finally:
+            cur.close()
+            conn.close()
 
-    df["cle"] = df["code_ape"].fillna("?") + "|" + df["etat"].fillna("?")
-    df["cle_prec"] = df.groupby("siret")["cle"].shift(1)
-
-    fait: pd.DataFrame = df[df["cle"] != df["cle_prec"]].copy()
-
-    fait["valid_from"] = fait["dateDebut"]
-    fait["valid_to"]   = fait.groupby("siret")["valid_from"].shift(-1)
-    fait["is_current"] = fait["valid_to"].isna()
-    
-    fait.to_sql(
-        name=target_table_name,
-        con=engine,
-        if_exists='replace',
-        index=False,
-        chunksize=10000
-    )
-    print(f"Table {target_table_name} mise à jour avec succès !")
+    def create_schema(self):
+        self._create_database_if_not_exists()
+        
+        with open("schema.sql", "r", encoding="utf-8") as f, self.get_connection() as cur:
+            sql_template = f.read()
+            cur.execute(sql_template)
