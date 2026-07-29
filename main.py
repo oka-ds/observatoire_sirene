@@ -14,7 +14,7 @@ def main():
     if warehouse_rows == 0:
         push_scd2(config.SCHEMA_PUBLIC_NAME, config.TABLE_NAME)
         
-    push_scd2(config.SCHEMA_PUBLIC_NAME, config.TABLE_NAME)
+    # push_scd2(config.SCHEMA_PUBLIC_NAME, config.TABLE_NAME)
     
 if __name__ == "__main__":
     main()
