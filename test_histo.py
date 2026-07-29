@@ -6,10 +6,10 @@ import sys
 
 load_dotenv()
 
-HISTORIQUE_PARQUET_URL = config.HISTORIQUE_PARQUET_URL
+HISTORIQUE_PARQUET_URL = config.Urls.histo_etablissements
 
 TABLE_NAME = config.TABLE_HISTO_NAME
-SCHEMA_NAME = config.SCHEMA_PUBLIC_NAME
+SCHEMA_NAME = config.Schemas.public
 
 def load_histo(code_dept: str = None):
 

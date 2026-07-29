@@ -2,16 +2,16 @@
 -- Schéma
 -- ============================================================
 
-CREATE SCHEMA IF NOT EXISTS observatoire;
+CREATE SCHEMA IF NOT EXISTS {schema};
 
-SET search_path TO observatoire;
+SET search_path TO {schema};
 
 
 -- ============================================================
 -- DIMENSION DATE
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS dim_date (
+CREATE TABLE IF NOT EXISTS {dim_date} (
 
     date_id DATE PRIMARY KEY,
 
@@ -25,19 +25,19 @@ CREATE TABLE IF NOT EXISTS dim_date (
 
 );
 
-COMMENT ON TABLE dim_date
+COMMENT ON TABLE {dim_date}
 IS 'Dimension calendrier';
 
-COMMENT ON COLUMN dim_date.date_id
+COMMENT ON COLUMN {dim_date}.date_id
 IS 'Date complète (clé primaire)';
 
-COMMENT ON COLUMN dim_date.annee
+COMMENT ON COLUMN {dim_date}.annee
 IS 'Année';
 
-COMMENT ON COLUMN dim_date.trimestre
+COMMENT ON COLUMN {dim_date}.trimestre
 IS 'Trimestre';
 
-COMMENT ON COLUMN dim_date.mois
+COMMENT ON COLUMN {dim_date}.mois
 IS 'Mois';
 
 
@@ -45,7 +45,7 @@ IS 'Mois';
 -- DIMENSION COMMUNE
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS dim_commune (
+CREATE TABLE IF NOT EXISTS {dim_commune} (
 
     code_commune VARCHAR(5) PRIMARY KEY,
 
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS dim_commune (
 
 );
 
-COMMENT ON TABLE dim_commune
+COMMENT ON TABLE {dim_commune}
 IS 'Dimension des communes';
 
 
@@ -63,7 +63,7 @@ IS 'Dimension des communes';
 -- DIMENSION ACTIVITE
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS dim_activite (
+CREATE TABLE IF NOT EXISTS {dim_activite} (
 
     code_ape VARCHAR(10) PRIMARY KEY,
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS dim_activite (
 
 );
 
-COMMENT ON TABLE dim_activite
+COMMENT ON TABLE {dim_activite}
 IS 'Dimension des activités (NAF Rev1, Rev2...)';
 
 
@@ -79,7 +79,7 @@ IS 'Dimension des activités (NAF Rev1, Rev2...)';
 -- DIMENSION TRANCHE EFFECTIFS
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS dim_tranche_effectifs (
+CREATE TABLE IF NOT EXISTS {dim_tranche_effectifs} (
 
     code_tranche VARCHAR(5) PRIMARY KEY,
 
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS dim_tranche_effectifs (
 
 );
 
-COMMENT ON TABLE dim_tranche_effectifs
+COMMENT ON TABLE {dim_tranche_effectifs}
 IS 'Dimension des tranches d''effectifs';
 
 
@@ -95,7 +95,7 @@ IS 'Dimension des tranches d''effectifs';
 -- TABLE DE FAITS SCD2
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS fait_etablissement_version (
+CREATE TABLE IF NOT EXISTS {faits} (
 
     siret VARCHAR(14) NOT NULL,
 
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS fait_etablissement_version (
 
     etat VARCHAR(20) NOT NULL,
 
-    CONSTRAINT pk_fait_etablissement_version
+    CONSTRAINT {pk_faits}
         PRIMARY KEY (siret, valid_from),
 
     CONSTRAINT fk_valid_from
@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS fait_etablissement_version (
 
 );
 
-COMMENT ON TABLE fait_etablissement_version
+COMMENT ON TABLE {faits}
 IS 'Historisation SCD2 des établissements SIRENE';
 
 
@@ -156,13 +156,13 @@ IS 'Historisation SCD2 des établissements SIRENE';
 -- ============================================================
 
 CREATE INDEX IF NOT EXISTS idx_fait_siret
-ON fait_etablissement_version(siret);
+ON {faits}(siret);
 
 CREATE INDEX IF NOT EXISTS idx_fait_valid_from
-ON fait_etablissement_version(valid_from);
+ON {faits}(valid_from);
 
 CREATE INDEX IF NOT EXISTS idx_fait_valid_to
-ON fait_etablissement_version(valid_to);
+ON {faits}(valid_to);
 
 CREATE INDEX IF NOT EXISTS idx_fait_current
-ON fait_etablissement_version(is_current);
+ON {faits}(is_current);

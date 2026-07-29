@@ -63,12 +63,22 @@ class DatabaseManager:
             cur.close()
             conn.close()
 
-    def create_schema(self):
+    def create_schema(self, test: bool = False):
         self._create_database_if_not_exists()
+        
+        context = {
+            "schema": config.Schemas.test if test else config.Schemas.warehouse,
+            "dim_date": config.TablesObservatoire.DIM_DATE,
+            "dim_commune": config.TablesObservatoire.DIM_COMMUNE,
+            "dim_activite": config.TablesObservatoire.DIM_ACTIVITE,
+            "dim_tranche_effectifs": config.TablesObservatoire.DIM_TRANCHE,
+            "faits": config.TablesObservatoire.FAIT_ETAB,
+        }
         
         with open(self.file_path, "r", encoding="utf-8") as f, self.get_connection() as cur:
             sql_template = f.read()
-            cur.execute(sql_template)
+            formatted_sql = sql_template.format(**context)
+            cur.execute(formatted_sql)
             
         self._insert_date()
         
@@ -80,7 +90,7 @@ class DatabaseManager:
         with self.get_connection() as cur:
             try:
                 for table in config.TablesObservatoire:
-                    query = f"DROP TABLE IF EXISTS {table} CASCADE;"
+                    query = f"DROP TABLE IF EXISTS {config.Schemas.warehouse}.{table} CASCADE;"
                     print(f"Suppression de la table : {table}")
                     cur.execute(query)
                     
@@ -92,7 +102,7 @@ class DatabaseManager:
     def _insert_date(self):
         with self.get_connection() as cur:
             q = f"""
-            INSERT INTO {config.WAREHOUSE_SCHEMA}.dim_date (date_id, annee, trimestre, mois)
+            INSERT INTO {config.Schemas.warehouse}.dim_date (date_id, annee, trimestre, mois)
             SELECT 
                 d::DATE AS date_id,
                 EXTRACT(YEAR FROM d)::INT AS annee,

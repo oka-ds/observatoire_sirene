@@ -6,13 +6,13 @@ import config
 
 load_dotenv()
 
-def load_etab(code_dept: str = None):
+def load_etab(code_dept: str = None, test: bool = False):
     
-    PARQUET_URL = config.PARQUET_URL
-    PARQUET_HISTO_URL = config.HISTORIQUE_PARQUET_URL
+    parquet_url = config.Urls.etablissements
+    parquet_histo_url = config.Urls.histo_etablissements
     
-    TABLE_NAME = config.TABLE_NAME
-    SCHEMA_NAME = config.SCHEMA_PUBLIC_NAME
+    table_name = config.TABLE_NAME
+    schema_name = config.Schemas.test if test else config.Schemas.public
 
     connexion_duckdb = duckdb.connect()
     db_url = os.getenv("DATABASE_URL")
@@ -29,16 +29,16 @@ def load_etab(code_dept: str = None):
     where_sql = "WHERE " + " AND ".join(where_clauses)
     
     query = f"""
-    DROP TABLE IF EXISTS pg_db.{SCHEMA_NAME}.{TABLE_NAME};
+    DROP TABLE IF EXISTS pg_db.{schema_name}.{table_name};
     
-    CREATE TABLE pg_db.{SCHEMA_NAME}.{TABLE_NAME} AS 
+    CREATE TABLE pg_db.{schema_name}.{table_name} AS 
     SELECT 
         h.*,
         a.codeCommuneEtablissement,
         a.libelleCommuneEtablissement,
         a.trancheEffectifsEtablissement
-    FROM read_parquet('{PARQUET_HISTO_URL}') h
-    INNER JOIN read_parquet('{PARQUET_URL}') a 
+    FROM read_parquet('{parquet_histo_url}') h
+    INNER JOIN read_parquet('{parquet_url}') a 
         ON h.siret = a.siret
     {where_sql};
     """

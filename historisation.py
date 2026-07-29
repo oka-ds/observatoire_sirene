@@ -19,7 +19,6 @@ def push_scd2(schema_name: str, table_name: str):
 
     ATTACH '{db_url}' AS pg_db (TYPE POSTGRES);
 
-    -- 1. Materialize the SCD2 logic into a temporary table in DuckDB
     CREATE OR REPLACE TEMP TABLE scd2 AS 
     WITH source_data AS (
         SELECT 
@@ -109,8 +108,8 @@ def push_scd2(schema_name: str, table_name: str):
     FROM ranked
     WHERE cle IS DISTINCT FROM cle_prec;
 
-    -- 2. INSERT dim_commune
-    INSERT INTO pg_db.observatoire.dim_commune (
+    -- INSERT dim_commune
+    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.DIM_COMMUNE} (
         code_commune, libelle_commune, code_departement
     )
     SELECT DISTINCT
@@ -118,8 +117,8 @@ def push_scd2(schema_name: str, table_name: str):
     FROM scd2
     ON CONFLICT (code_commune) DO NOTHING;
     
-    -- 3. INSERT dim_activite
-    INSERT INTO pg_db.observatoire.dim_activite (
+    -- INSERT dim_activite
+    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.DIM_ACTIVITE} (
         code_ape, nomenclature
     )
     SELECT DISTINCT
@@ -127,8 +126,8 @@ def push_scd2(schema_name: str, table_name: str):
     FROM scd2
     ON CONFLICT (code_ape) DO NOTHING;
     
-    -- 4. INSERT dim_tranche_effectifs
-    INSERT INTO pg_db.observatoire.dim_tranche_effectifs (
+    -- INSERT dim_tranche_effectifs
+    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.DIM_TRANCHE} (
         code_tranche, libelle
     )
     SELECT DISTINCT
@@ -136,8 +135,8 @@ def push_scd2(schema_name: str, table_name: str):
     FROM scd2
     ON CONFLICT (code_tranche) DO NOTHING;
     
-    -- 5. INSERT fact
-    INSERT INTO pg_db.observatoire.fait_etablissement_version (
+    -- INSERT fact
+    INSERT INTO pg_db.{config.Schemas.warehouse}.{config.TablesObservatoire.FAIT_ETAB} (
         siret, valid_from, valid_to, is_current, etat, code_ape, 
         code_commune, code_tranche
     )
@@ -163,4 +162,4 @@ def push_scd2(schema_name: str, table_name: str):
     tracemalloc.stop()
 
 if __name__ == "__main__":
-    push_scd2(config.SCHEMA_PUBLIC_NAME, config.TABLE_NAME)
+    push_scd2(config.Schemas.public, config.TABLE_NAME)
