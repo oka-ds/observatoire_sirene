@@ -1,8 +1,6 @@
 import os
 from dotenv import load_dotenv
 import duckdb
-import tracemalloc
-import time
 import config.config as config
 from pathlib import Path
 
@@ -12,10 +10,6 @@ load_dotenv(dotenv_path=env_path)
 def push_scd2(schema_name: str, table_name: str, test: bool = False):
     
     target_schema = config.get_schema(test)
-    
-    tracemalloc.start()
-    start_time = time.perf_counter()
-
     db_url = os.getenv("DATABASE_URL")
 
     query = f"""
@@ -154,17 +148,6 @@ def push_scd2(schema_name: str, table_name: str, test: bool = False):
     connexion_duckdb = duckdb.connect()
     connexion_duckdb.execute(query)
     connexion_duckdb.close()
-
-    end_time = time.perf_counter()
-
-    duration = end_time - start_time
-    print(f"Temps d'exécution : {duration:.4f} secondes")
-
-    current, peak = tracemalloc.get_traced_memory()
-    print(f"Mémoire actuelle : {current / 10**6:.2f} Mo")
-    print(f"Pic mémoire : {peak / 10**6:.2f} Mo")
-
-    tracemalloc.stop()
 
 if __name__ == "__main__":
     push_scd2(config.Schemas.public, config.TABLE_NAME)

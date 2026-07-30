@@ -1,5 +1,4 @@
 import unittest
-
 from src.load import DatabaseManager
 from src.historisation import push_scd2
 from config import config
