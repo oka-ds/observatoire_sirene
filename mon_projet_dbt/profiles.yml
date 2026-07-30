@@ -1,0 +1,13 @@
+observatoire_sirene:
+  target: dev
+
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: DOSSjrm4
+      dbname: observatoire_sirene
+      schema: observatoire
+      threads: 4

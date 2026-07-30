@@ -1,0 +1,36 @@
+name: 'mon_projet_dbt'
+
+version: '1.0.0'
+
+config-version: 2
+
+
+profile: 'observatoire_sirene'
+
+
+model-paths: ["models"]
+snapshot-paths: ["snapshots"]
+seed-paths: ["seeds"]
+
+
+models:
+
+  mon_projet_dbt:
+
+    staging:
+
+      +materialized: view
+      +schema: observatoire
+
+
+    marts:
+
+      +materialized: table
+      +schema: observatoire
+
+
+snapshots:
+
+  mon_projet_dbt:
+
+    +target_schema: observatoire

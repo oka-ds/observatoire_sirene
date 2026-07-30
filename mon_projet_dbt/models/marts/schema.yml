@@ -1,0 +1,20 @@
+version: 2
+
+models:
+
+  - name: dim_commune
+
+    description: "Dimension des communes SIRENE normalisée depuis le staging"
+
+    columns:
+
+      - name: code_commune
+        description: "Code INSEE de la commune"
+        tests:
+          - unique
+          - not_null
+
+      - name: libelle_commune
+        description: "Nom de la commune"
+        tests:
+          - not_null

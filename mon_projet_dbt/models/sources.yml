@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: sirene
+    schema: public
+
+    tables:
+      - name: sirene_etablissement
+        description: "Table brute SIRENE INSEE"
+
+      - name: periodes
+        description: "Echantillon Parquet SIRENE"
+
