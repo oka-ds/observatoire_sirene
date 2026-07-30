@@ -15,7 +15,7 @@ def load_etab(code_dept: str = None, test: bool = False):
     
     table_name = config.TABLE_NAME
     schema_name = config.Schemas.test if test else config.Schemas.public
-
+    
     connexion_duckdb = duckdb.connect()
     db_url = os.getenv("DATABASE_URL")
 

@@ -21,3 +21,8 @@ class Schemas(StrEnum):
     warehouse = "observatoire"
     test = "test"
     public = "public"
+    
+# class Thread(StrEnum):
+#     schema = "thread"
+#     table = "etablissements"
+    

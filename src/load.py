@@ -88,7 +88,7 @@ class DatabaseManager:
         self._drop_observatoires_tables(test)
         self.create_schema(test)
             
-    def _drop_observatoires_tables(self, test: bool = True):
+    def _drop_observatoires_tables(self, test: bool = False):
         
         with self.get_connection() as cur:
             try:
