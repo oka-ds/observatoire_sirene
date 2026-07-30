@@ -1,0 +1,14 @@
+
+    
+    
+    
+    create table "observatoire_sirene"."observatoire"."etats_demo1" ("etat" text,"libelle" text)
+  ;
+    -- dbt seed --
+    
+          insert into "observatoire_sirene"."observatoire"."etats_demo1" ("etat", "libelle") values
+          (%s,%s),(%s,%s)
+      
+
+;
+  
