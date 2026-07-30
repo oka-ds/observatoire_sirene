@@ -5,13 +5,15 @@ from dotenv import load_dotenv
 import config.config as config
 from pathlib import Path
 
-env_path = Path(__file__).resolve().parent.parent / ".env"
+project_path = Path(__file__).resolve().parent.parent
+env_path = project_path / ".env"
+data_path = project_path / "data"
 load_dotenv(dotenv_path=env_path)
 
 def load_etab(code_dept: str = None, test: bool = False):
     
-    parquet_url = config.Urls.etablissements
-    parquet_histo_url = config.Urls.histo_etablissements
+    parquet_histo_url = data_path / config.Urls.etablissements
+    parquet_url = data_path / config.Urls.histo_etablissements
     
     table_name = config.TABLE_NAME
     schema_name = config.Schemas.test if test else config.Schemas.public
