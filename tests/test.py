@@ -185,6 +185,5 @@ if __name__ == "__main__":
         verbosity=2
     ).run(test_unitaire)
 
-    # Retourne un code d'erreur à PowerShell si le test échoue
     if not resultat_test.wasSuccessful():
         raise SystemExit(1)
