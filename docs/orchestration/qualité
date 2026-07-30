@@ -1,0 +1,58 @@
+On a caché la correction de la date debut par 
+
+date_debut >= DATE '1900-01-01'
+AND date_debut <= CURRENT_DATE
+
+par ex 
+0004-01-03
+3035-06-20
+
+
+controle 
+SELECT
+    dateDebut,
+    COUNT(*)
+FROM public.sirene_etablissement
+GROUP BY dateDebut
+ORDER BY dateDebut
+LIMIT 20;
+
+et 
+
+SELECT
+    dateDebut,
+    COUNT(*)
+FROM public.sirene_etablissement
+GROUP BY dateDebut
+ORDER BY dateDebut DESC
+LIMIT 20;
+
+on verra que cette date est mal interpretée
+
+
+
+
+################"""
+on fait 
+valid_from = date_debut
+valid_to = NULL
+is_current = TRUE
+
+pour un vrai scd2
+il faut remplacer dans la source le NULL,
+TRUE
+
+
+LEAD(date_debut)
+OVER(
+ PARTITION BY siret
+ ORDER BY date_debut
+),
+CASE
+ WHEN LEAD(date_debut) OVER(...) IS NULL
+ THEN TRUE
+ ELSE FALSE
+END
+
+La prochaine étape logique serait de corriger le vrai SCD2 avec valid_to et is_current
+, puis ajouter des tables d'analyse (faits_etablissement, densité entreprises par département, évolution créations/fermetures...)

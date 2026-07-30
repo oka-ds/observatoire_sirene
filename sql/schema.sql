@@ -1,17 +1,16 @@
 -- ============================================================
--- Schéma
+-- SCHEMA OBSERVATOIRE
 -- ============================================================
 
 CREATE SCHEMA IF NOT EXISTS {schema};
 
 SET search_path TO {schema};
 
-
 -- ============================================================
 -- DIMENSION DATE
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS {dim_date} (
+CREATE TABLE IF NOT EXISTS {schema}.{dim_date} (
 
     date_id DATE PRIMARY KEY,
 
@@ -25,19 +24,19 @@ CREATE TABLE IF NOT EXISTS {dim_date} (
 
 );
 
-COMMENT ON TABLE {dim_date}
+COMMENT ON TABLE {schema}.{dim_date}
 IS 'Dimension calendrier';
 
-COMMENT ON COLUMN {dim_date}.date_id
+COMMENT ON COLUMN {schema}.{dim_date}.date_id
 IS 'Date complète (clé primaire)';
 
-COMMENT ON COLUMN {dim_date}.annee
+COMMENT ON COLUMN {schema}.{dim_date}.annee
 IS 'Année';
 
-COMMENT ON COLUMN {dim_date}.trimestre
+COMMENT ON COLUMN {schema}.{dim_date}.trimestre
 IS 'Trimestre';
 
-COMMENT ON COLUMN {dim_date}.mois
+COMMENT ON COLUMN {schema}.{dim_date}.mois
 IS 'Mois';
 
 
@@ -45,7 +44,7 @@ IS 'Mois';
 -- DIMENSION COMMUNE
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS {dim_commune} (
+CREATE TABLE IF NOT EXISTS {schema}.{dim_commune} (
 
     code_commune VARCHAR(5) PRIMARY KEY,
 
@@ -55,7 +54,7 @@ CREATE TABLE IF NOT EXISTS {dim_commune} (
 
 );
 
-COMMENT ON TABLE {dim_commune}
+COMMENT ON TABLE {schema}.{dim_commune}
 IS 'Dimension des communes';
 
 
@@ -63,23 +62,23 @@ IS 'Dimension des communes';
 -- DIMENSION ACTIVITE
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS {dim_activite} (
+CREATE TABLE IF NOT EXISTS {schema}.{dim_activite} (
 
     code_ape VARCHAR(10) PRIMARY KEY,
 
-    nomenclature VARCHAR(20) NOT NULL
+    nomenclature VARCHAR(100) NOT NULL
 
 );
 
-COMMENT ON TABLE {dim_activite}
-IS 'Dimension des activités (NAF Rev1, Rev2...)';
+COMMENT ON TABLE {schema}.{dim_activite}
+IS 'Dimension des activités';
 
 
 -- ============================================================
 -- DIMENSION TRANCHE EFFECTIFS
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS {dim_tranche_effectifs} (
+CREATE TABLE IF NOT EXISTS {schema}.{dim_tranche_effectifs} (
 
     code_tranche VARCHAR(5) PRIMARY KEY,
 
@@ -87,7 +86,7 @@ CREATE TABLE IF NOT EXISTS {dim_tranche_effectifs} (
 
 );
 
-COMMENT ON TABLE {dim_tranche_effectifs}
+COMMENT ON TABLE {schema}.{dim_tranche_effectifs}
 IS 'Dimension des tranches d''effectifs';
 
 
@@ -95,7 +94,7 @@ IS 'Dimension des tranches d''effectifs';
 -- TABLE DE FAITS SCD2
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS {faits} (
+CREATE TABLE IF NOT EXISTS {schema}.{faits} (
 
     siret VARCHAR(14) NOT NULL,
 
@@ -111,33 +110,36 @@ CREATE TABLE IF NOT EXISTS {faits} (
 
     code_tranche VARCHAR(5),
 
-    etat VARCHAR(20) NOT NULL,
+    etat VARCHAR(1) NOT NULL,
 
     CONSTRAINT pk_faits
-        PRIMARY KEY (siret, valid_from),
+        PRIMARY KEY (
+            siret,
+            valid_from
+        ),
 
     CONSTRAINT fk_valid_from
         FOREIGN KEY (valid_from)
-        REFERENCES dim_date(date_id),
+        REFERENCES {schema}.{dim_date}(date_id),
 
     CONSTRAINT fk_valid_to
         FOREIGN KEY (valid_to)
-        REFERENCES dim_date(date_id),
+        REFERENCES {schema}.{dim_date}(date_id),
 
     CONSTRAINT fk_commune
         FOREIGN KEY (code_commune)
-        REFERENCES dim_commune(code_commune),
+        REFERENCES {schema}.{dim_commune}(code_commune),
 
     CONSTRAINT fk_activite
         FOREIGN KEY (code_ape)
-        REFERENCES dim_activite(code_ape),
+        REFERENCES {schema}.{dim_activite}(code_ape),
 
     CONSTRAINT fk_tranche
         FOREIGN KEY (code_tranche)
-        REFERENCES dim_tranche_effectifs(code_tranche),
+        REFERENCES {schema}.{dim_tranche_effectifs}(code_tranche),
 
     CONSTRAINT chk_etat
-        CHECK (etat IN ('A', 'F')),
+        CHECK (etat IN ('A','F')),
 
     CONSTRAINT chk_dates
         CHECK (
@@ -147,7 +149,7 @@ CREATE TABLE IF NOT EXISTS {faits} (
 
 );
 
-COMMENT ON TABLE {faits}
+COMMENT ON TABLE {schema}.{faits}
 IS 'Historisation SCD2 des établissements SIRENE';
 
 
@@ -156,13 +158,22 @@ IS 'Historisation SCD2 des établissements SIRENE';
 -- ============================================================
 
 CREATE INDEX IF NOT EXISTS idx_fait_siret
-ON {faits}(siret);
+ON {schema}.{faits}(siret);
 
 CREATE INDEX IF NOT EXISTS idx_fait_valid_from
-ON {faits}(valid_from);
+ON {schema}.{faits}(valid_from);
 
 CREATE INDEX IF NOT EXISTS idx_fait_valid_to
-ON {faits}(valid_to);
+ON {schema}.{faits}(valid_to);
 
 CREATE INDEX IF NOT EXISTS idx_fait_current
-ON {faits}(is_current);
+ON {schema}.{faits}(is_current);
+
+CREATE INDEX IF NOT EXISTS idx_fait_commune
+ON {schema}.{faits}(code_commune);
+
+CREATE INDEX IF NOT EXISTS idx_fait_ape
+ON {schema}.{faits}(code_ape);
+
+CREATE INDEX IF NOT EXISTS idx_fait_tranche
+ON {schema}.{faits}(code_tranche);

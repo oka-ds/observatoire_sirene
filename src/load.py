@@ -66,8 +66,13 @@ class DatabaseManager:
             conn.close()
 
     def create_schema(self, test: bool = False):
+        """
+        Crée le schéma et les tables si elles n'existent pas.
+        Initialise également la dimension date.
+        """
+
         self._create_database_if_not_exists()
-        
+
         context = {
             "schema": config.get_schema(test),
             "dim_date": config.TablesObservatoire.DIM_DATE,
@@ -76,14 +81,35 @@ class DatabaseManager:
             "dim_tranche_effectifs": config.TablesObservatoire.DIM_TRANCHE,
             "faits": config.TablesObservatoire.FAIT_ETAB,
         }
-        
-        with open(self.file_path, "r", encoding="utf-8") as f, self.get_connection() as cur:
+
+        # Lecture du fichier SQL
+        with open(self.file_path, "r", encoding="utf-8") as f:
             sql_template = f.read()
-            formatted_sql = sql_template.format(**context)
-            cur.execute(formatted_sql)
-            
+
+        formatted_sql = sql_template.format(**context)
+
+
+        with self.get_connection() as cur:
+
+            # Exécution des commandes SQL séparées
+            statements = [
+                stmt.strip()
+                for stmt in formatted_sql.split(";")
+                if stmt.strip()
+            ]
+
+            for statement in statements:
+                cur.execute(statement)
+
+
+        # Chargement dimension calendrier
         self._insert_date(test)
-        
+
+        print(
+            f"Schéma {config.get_schema(test)} créé avec succès."
+        )
+
+
     def refresh_observatoire(self, test: bool = False):
         self._drop_observatoires_tables(test)
         self.create_schema(test)
@@ -103,22 +129,39 @@ class DatabaseManager:
 
             
     def _insert_date(self, test: bool = False):
+
+        schema = config.get_schema(test)
+
         with self.get_connection() as cur:
+
             q = f"""
-            INSERT INTO {config.get_schema(test)}.{config.TablesObservatoire.DIM_DATE} (date_id, annee, trimestre, mois)
-            SELECT 
-                d::DATE AS date_id,
-                EXTRACT(YEAR FROM d)::INT AS annee,
-                EXTRACT(QUARTER FROM d)::INT AS trimestre,
-                EXTRACT(MONTH FROM d)::INT AS mois
+            INSERT INTO {schema}.{config.TablesObservatoire.DIM_DATE}
+            (
+                date_id,
+                annee,
+                trimestre,
+                mois
+            )
+
+            SELECT
+                d::DATE,
+                EXTRACT(YEAR FROM d)::INT,
+                EXTRACT(QUARTER FROM d)::INT,
+                EXTRACT(MONTH FROM d)::INT
+
             FROM generate_series(
                 DATE '1900-01-01',
-                CURRENT_DATE,
+                DATE '2035-12-31',
                 INTERVAL '1 day'
             ) AS t(d)
-            ON CONFLICT (date_id) DO NOTHING;
+
+            ON CONFLICT(date_id)
+            DO NOTHING;
             """
+
             cur.execute(q)
+
+        print("Dimension date initialisée.")
             
 
     def count_rows(self, schema_name: str, table_name: str) -> int:
@@ -131,3 +174,6 @@ class DatabaseManager:
                 return cur.fetchone()[0]
             except psycopg2.errors.UndefinedTable:
                 return 0
+
+    
+

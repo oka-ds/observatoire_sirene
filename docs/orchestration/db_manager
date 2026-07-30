@@ -1,0 +1,21 @@
+DatabaseManager()
+        |
+        v
+_create_database_if_not_exists()
+        |
+        v
+create_schema()
+        |
+        +--> CREATE SCHEMA observatoire
+        |
+        +--> CREATE dim_date
+        +--> CREATE dim_commune
+        +--> CREATE dim_activite
+        +--> CREATE dim_tranche_effectifs
+        +--> CREATE fait_etablissement_version
+        |
+        v
+_insert_date()
+        |
+        v
+SCD2 peut charger les faits
