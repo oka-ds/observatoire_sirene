@@ -4,3 +4,6 @@ data/*
 tmp/
 .vscode
 __pycache__
+export_etablissements.parquet
+export_etablissements_histo.parquet
+thread_ingestion.py
