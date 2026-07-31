@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from pathlib import Path
 import config.config as config
 from pathlib import Path
-from typing import Union
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
