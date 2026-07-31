@@ -12,8 +12,8 @@ load_dotenv(dotenv_path=env_path)
 
 def load_etab(code_dept: str = None, test: bool = False):
     
-    parquet_histo_url = data_path / config.Urls.etablissements
-    parquet_url = data_path / config.Urls.histo_etablissements
+    parquet_histo = data_path/"stock-stocketablissementhistorique-parquet.parquet"
+    parquet = data_path/"stock-stocketablissement-parquet.parquet"
     
     table_name = config.TABLE_NAME
     schema_name = config.Schemas.test if test else config.Schemas.public
@@ -41,8 +41,8 @@ def load_etab(code_dept: str = None, test: bool = False):
         a.codeCommuneEtablissement,
         a.libelleCommuneEtablissement,
         a.trancheEffectifsEtablissement
-    FROM read_parquet('{parquet_histo_url}') h
-    INNER JOIN read_parquet('{parquet_url}') a 
+    FROM read_parquet('{parquet_histo}') h
+    INNER JOIN read_parquet('{parquet}') a 
         ON h.siret = a.siret
     {where_sql};
     """
