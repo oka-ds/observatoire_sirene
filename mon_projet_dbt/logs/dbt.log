@@ -8092,3 +8092,918 @@ select * from (
 [0m16:57:28.731131 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CD134DC260>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CD130789B0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CD0AA75130>]}
 [0m16:57:28.731487 [debug] [MainThread]: Flushing usage events
 [0m16:57:29.397246 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m17:06:42.218571 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F261A70980>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F25F370B90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F2642D39D0>]}
+
+
+============================== 17:06:42.222005 | ac681c54-f25b-4630-99e2-c190f3673eb4 ==============================
+[0m17:06:42.222005 [info ] [MainThread]: Running with dbt=1.12.0
+[0m17:06:42.222695 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'maximum_seed_size_mib': '1', 'printer_width': '80', 'write_json': 'True', 'empty': 'False', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'C:\\Users\\Utilisateur\\Documents\\courses\\observatoire_sirene\\mon_projet_dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'indirect_selection': 'eager', 'hints_enabled': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'invocation_command': 'dbt seed --full-refresh', 'log_path': 'C:\\Users\\Utilisateur\\Documents\\courses\\observatoire_sirene\\mon_projet_dbt\\logs'}
+[0m17:06:42.391926 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F26427DE00>]}
+[0m17:06:42.455535 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F25FAFEF10>]}
+[0m17:06:42.456509 [info ] [MainThread]: Registered adapter: postgres=1.11.0
+[0m17:06:42.696820 [debug] [MainThread]: checksum: 60d4e7c5581444e26d365e42f856ff9ef6ae34e9f453452ecad212ad268af85c, vars: {}, profile: observatoire_sirene, target: dev, version: 1.12.0
+[0m17:06:42.868814 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 1 files changed.
+[0m17:06:42.869331 [debug] [MainThread]: Partial parsing: updated file: mon_projet_dbt://seeds\etats_demo.csv
+[0m17:06:43.149240 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F2648B1950>]}
+[0m17:06:43.270858 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\manifest.json
+[0m17:06:43.273770 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\semantic_manifest.json
+[0m17:06:43.290230 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\osi_document.json
+[0m17:06:43.299066 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F264C95A90>]}
+[0m17:06:43.299524 [info ] [MainThread]: Found 2 models, 3 data tests, 1 snapshot, 2 seeds, 2 sources, 477 macros
+[0m17:06:43.300057 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F264C4FA10>]}
+[0m17:06:43.302113 [info ] [MainThread]: 
+[0m17:06:43.302590 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m17:06:43.303005 [info ] [MainThread]: 
+[0m17:06:43.303546 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m17:06:43.306999 [debug] [ThreadPool]: Acquiring new postgres connection 'list_observatoire_sirene'
+[0m17:06:43.368459 [debug] [ThreadPool]: Using postgres connection "list_observatoire_sirene"
+[0m17:06:43.368807 [debug] [ThreadPool]: On list_observatoire_sirene: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "list_observatoire_sirene"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m17:06:43.369077 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:06:43.415270 [debug] [ThreadPool]: SQL status: SELECT 10 in 0.046 seconds
+[0m17:06:43.416378 [debug] [ThreadPool]: On list_observatoire_sirene: Close
+[0m17:06:43.418104 [debug] [ThreadPool]: Acquiring new postgres connection 'list_observatoire_sirene_observatoire_observatoire'
+[0m17:06:43.423052 [debug] [ThreadPool]: Using postgres connection "list_observatoire_sirene_observatoire_observatoire"
+[0m17:06:43.423416 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire_observatoire: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "list_observatoire_sirene_observatoire_observatoire"} */
+select
+      'observatoire_sirene' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'observatoire_observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'observatoire_observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'observatoire_observatoire'
+    union all
+    select distinct
+     'observatoire_sirene' as database,
+     proname as name,
+     ns.nspname as schema,
+     'function' as type
+    from pg_proc
+     join pg_namespace as ns on pronamespace = ns.oid
+    where ns.nspname ilike 'observatoire_observatoire'
+  
+[0m17:06:43.423744 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:06:43.424494 [debug] [ThreadPool]: Acquiring new postgres connection 'list_observatoire_sirene_observatoire'
+[0m17:06:43.425565 [debug] [ThreadPool]: Using postgres connection "list_observatoire_sirene_observatoire"
+[0m17:06:43.425932 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "list_observatoire_sirene_observatoire"} */
+select
+      'observatoire_sirene' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'observatoire'
+    union all
+    select distinct
+     'observatoire_sirene' as database,
+     proname as name,
+     ns.nspname as schema,
+     'function' as type
+    from pg_proc
+     join pg_namespace as ns on pronamespace = ns.oid
+    where ns.nspname ilike 'observatoire'
+  
+[0m17:06:43.426305 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:06:43.469758 [debug] [ThreadPool]: SQL status: SELECT 2 in 0.046 seconds
+[0m17:06:43.470936 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire_observatoire: ROLLBACK
+[0m17:06:43.471345 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire_observatoire: Close
+[0m17:06:43.475883 [debug] [ThreadPool]: SQL status: SELECT 8 in 0.050 seconds
+[0m17:06:43.477198 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire: ROLLBACK
+[0m17:06:43.477647 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire: Close
+[0m17:06:43.482418 [debug] [MainThread]: Using postgres connection "master"
+[0m17:06:43.482806 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "master"} */
+select distinct
+        dependent_namespace.nspname as dependent_schema,
+        dependent_class.relname as dependent_name,
+        referenced_namespace.nspname as referenced_schema,
+        referenced_class.relname as referenced_name
+
+    -- Query for views: views are entries in pg_class with an entry in pg_rewrite, but we avoid
+    -- a seq scan on pg_rewrite by leveraging the fact there is an "internal" row in pg_depend for
+    -- the view...
+    from pg_class as dependent_class
+    join pg_namespace as dependent_namespace on dependent_namespace.oid = dependent_class.relnamespace
+    join pg_depend as dependent_depend on dependent_depend.refobjid = dependent_class.oid
+        and dependent_depend.classid = 'pg_rewrite'::regclass
+        and dependent_depend.refclassid = 'pg_class'::regclass
+        and dependent_depend.deptype = 'i'
+
+    -- ... and via pg_depend (that has a row per column, hence the need for "distinct" above, and
+    -- making sure to exclude the internal row to avoid a view appearing to depend on itself)...
+    join pg_depend as joining_depend on joining_depend.objid = dependent_depend.objid
+        and joining_depend.classid = 'pg_rewrite'::regclass
+        and joining_depend.refclassid = 'pg_class'::regclass
+        and joining_depend.refobjid != dependent_depend.refobjid
+
+    -- ... we can find the tables they query from in pg_class, but excluding system tables. Note we
+    -- don't need need to exclude _dependent_ system tables, because they only query from other
+    -- system tables, and so are automatically excluded by excluding _referenced_ system tables
+    join pg_class as referenced_class on referenced_class.oid = joining_depend.refobjid
+    join pg_namespace as referenced_namespace on referenced_namespace.oid = referenced_class.relnamespace
+        and referenced_namespace.nspname != 'information_schema'
+        and referenced_namespace.nspname not like 'pg\_%'
+
+    order by
+        dependent_schema, dependent_name, referenced_schema, referenced_name;
+[0m17:06:43.483164 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m17:06:43.524101 [debug] [MainThread]: SQL status: SELECT 1 in 0.041 seconds
+[0m17:06:43.525193 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F264F4D980>]}
+[0m17:06:43.525600 [debug] [MainThread]: On master: ROLLBACK
+[0m17:06:43.526004 [debug] [MainThread]: On master: COMMIT
+[0m17:06:43.526293 [debug] [MainThread]: Using postgres connection "master"
+[0m17:06:43.526562 [debug] [MainThread]: On master: COMMIT
+[0m17:06:43.527020 [debug] [MainThread]: SQL status: COMMIT in 0.000 seconds
+[0m17:06:43.527312 [debug] [MainThread]: On master: Close
+[0m17:06:43.530664 [debug] [Thread-2 (]: Began running node seed.mon_projet_dbt.etats_demo1
+[0m17:06:43.531206 [debug] [Thread-1 (]: Began running node seed.mon_projet_dbt.etats_demo
+[0m17:06:43.531660 [info ] [Thread-2 (]: 2 of 2 START seed file observatoire.etats_demo1 ................................ [RUN]
+[0m17:06:43.532650 [debug] [Thread-2 (]: Acquiring new postgres connection 'seed.mon_projet_dbt.etats_demo1'
+[0m17:06:43.532992 [debug] [Thread-2 (]: Began compiling node seed.mon_projet_dbt.etats_demo1
+[0m17:06:43.533335 [debug] [Thread-2 (]: Began executing node seed.mon_projet_dbt.etats_demo1
+[0m17:06:43.532082 [info ] [Thread-1 (]: 1 of 2 START seed file observatoire.etats_demo ................................. [RUN]
+[0m17:06:43.548130 [debug] [Thread-1 (]: Acquiring new postgres connection 'seed.mon_projet_dbt.etats_demo'
+[0m17:06:43.548519 [debug] [Thread-1 (]: Began compiling node seed.mon_projet_dbt.etats_demo
+[0m17:06:43.548858 [debug] [Thread-1 (]: Began executing node seed.mon_projet_dbt.etats_demo
+[0m17:06:43.563876 [debug] [Thread-1 (]: Applying DROP to: "observatoire_sirene"."observatoire"."etats_demo"
+[0m17:06:43.568970 [debug] [Thread-1 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo"
+[0m17:06:43.569323 [debug] [Thread-1 (]: On seed.mon_projet_dbt.etats_demo: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "seed.mon_projet_dbt.etats_demo"} */
+drop table if exists "observatoire_sirene"."observatoire"."etats_demo" cascade
+[0m17:06:43.569656 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m17:06:43.572018 [debug] [Thread-2 (]: Applying DROP to: "observatoire_sirene"."observatoire"."etats_demo1"
+[0m17:06:43.573224 [debug] [Thread-2 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo1"
+[0m17:06:43.573586 [debug] [Thread-2 (]: On seed.mon_projet_dbt.etats_demo1: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "seed.mon_projet_dbt.etats_demo1"} */
+drop table if exists "observatoire_sirene"."observatoire"."etats_demo1" cascade
+[0m17:06:43.573985 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m17:06:43.615148 [debug] [Thread-1 (]: SQL status: DROP TABLE in 0.045 seconds
+[0m17:06:43.622104 [debug] [Thread-1 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo"
+[0m17:06:43.622493 [debug] [Thread-1 (]: On seed.mon_projet_dbt.etats_demo: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "seed.mon_projet_dbt.etats_demo"} */
+
+    create table "observatoire_sirene"."observatoire"."etats_demo" ("siret" text,"etat" text,"code_ape" text)
+  
+[0m17:06:43.622881 [debug] [Thread-2 (]: SQL status: DROP TABLE in 0.049 seconds
+[0m17:06:43.624113 [debug] [Thread-2 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo1"
+[0m17:06:43.624456 [debug] [Thread-2 (]: On seed.mon_projet_dbt.etats_demo1: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "seed.mon_projet_dbt.etats_demo1"} */
+
+    create table "observatoire_sirene"."observatoire"."etats_demo1" ("etat" text,"libelle" text)
+  
+[0m17:06:43.625885 [debug] [Thread-1 (]: SQL status: CREATE TABLE in 0.003 seconds
+[0m17:06:43.634994 [debug] [Thread-2 (]: SQL status: CREATE TABLE in 0.010 seconds
+[0m17:06:43.643176 [debug] [Thread-2 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo1"
+[0m17:06:43.643514 [debug] [Thread-2 (]: On seed.mon_projet_dbt.etats_demo1: 
+          insert into "observatoire_sirene"."observatoire"."etats_demo1" ("etat", "libelle") values
+          (%s,%s),(%s,%s)
+      ...
+[0m17:06:43.641283 [debug] [Thread-1 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo"
+[0m17:06:43.644002 [debug] [Thread-1 (]: On seed.mon_projet_dbt.etats_demo: 
+          insert into "observatoire_sirene"."observatoire"."etats_demo" ("siret", "etat", "code_ape") values
+          (%s,%s,%s),(%s,%s,%s)
+      ...
+[0m17:06:43.644455 [debug] [Thread-2 (]: SQL status: INSERT 0 2 in 0.001 seconds
+[0m17:06:43.649780 [debug] [Thread-2 (]: Writing runtime SQL for node "seed.mon_projet_dbt.etats_demo1"
+[0m17:06:43.644792 [debug] [Thread-1 (]: SQL status: INSERT 0 2 in 0.000 seconds
+[0m17:06:43.650719 [debug] [Thread-1 (]: Writing runtime SQL for node "seed.mon_projet_dbt.etats_demo"
+[0m17:06:43.674385 [debug] [Thread-1 (]: On seed.mon_projet_dbt.etats_demo: COMMIT
+[0m17:06:43.674785 [debug] [Thread-1 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo"
+[0m17:06:43.675117 [debug] [Thread-1 (]: On seed.mon_projet_dbt.etats_demo: COMMIT
+[0m17:06:43.677708 [debug] [Thread-2 (]: On seed.mon_projet_dbt.etats_demo1: COMMIT
+[0m17:06:43.678067 [debug] [Thread-2 (]: Using postgres connection "seed.mon_projet_dbt.etats_demo1"
+[0m17:06:43.678395 [debug] [Thread-2 (]: On seed.mon_projet_dbt.etats_demo1: COMMIT
+[0m17:06:43.678766 [debug] [Thread-1 (]: SQL status: COMMIT in 0.003 seconds
+[0m17:06:43.680390 [debug] [Thread-1 (]: On seed.mon_projet_dbt.etats_demo: Close
+[0m17:06:43.680769 [debug] [Thread-2 (]: SQL status: COMMIT in 0.002 seconds
+[0m17:06:43.681551 [debug] [Thread-2 (]: On seed.mon_projet_dbt.etats_demo1: Close
+[0m17:06:43.684178 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F264C922D0>]}
+[0m17:06:43.684760 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ac681c54-f25b-4630-99e2-c190f3673eb4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F261F1C520>]}
+[0m17:06:43.685588 [info ] [Thread-1 (]: 1 of 2 OK loaded seed file observatoire.etats_demo ............................. [[32mCREATE 2[0m in 0.13s]
+[0m17:06:43.687346 [debug] [Thread-1 (]: Finished running node seed.mon_projet_dbt.etats_demo
+[0m17:06:43.686541 [info ] [Thread-2 (]: 2 of 2 OK loaded seed file observatoire.etats_demo1 ............................ [[32mCREATE 2[0m in 0.15s]
+[0m17:06:43.687939 [debug] [Thread-2 (]: Finished running node seed.mon_projet_dbt.etats_demo1
+[0m17:06:43.689381 [debug] [MainThread]: On master: COMMIT
+[0m17:06:43.689688 [debug] [MainThread]: Using postgres connection "master"
+[0m17:06:43.689958 [debug] [MainThread]: On master: COMMIT
+[0m17:06:43.690219 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m17:06:43.728505 [debug] [MainThread]: SQL status: COMMIT in 0.038 seconds
+[0m17:06:43.729093 [debug] [MainThread]: On master: Close
+[0m17:06:43.729650 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m17:06:43.729918 [debug] [MainThread]: Connection 'list_observatoire_sirene' was properly closed.
+[0m17:06:43.730241 [debug] [MainThread]: Connection 'list_observatoire_sirene_observatoire_observatoire' was properly closed.
+[0m17:06:43.730493 [debug] [MainThread]: Connection 'list_observatoire_sirene_observatoire' was properly closed.
+[0m17:06:43.730738 [debug] [MainThread]: Connection 'seed.mon_projet_dbt.etats_demo1' was properly closed.
+[0m17:06:43.730979 [debug] [MainThread]: Connection 'seed.mon_projet_dbt.etats_demo' was properly closed.
+[0m17:06:43.731305 [info ] [MainThread]: 
+[0m17:06:43.731873 [info ] [MainThread]: Finished running 2 seeds in 0 hours 0 minutes and 0.43 seconds (0.43s).
+[0m17:06:43.732791 [debug] [MainThread]: Command end result
+[0m17:06:43.763568 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\manifest.json
+[0m17:06:43.766558 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\semantic_manifest.json
+[0m17:06:43.769350 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\osi_document.json
+[0m17:06:43.776302 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\run_results.json
+[0m17:06:43.776606 [info ] [MainThread]: 
+[0m17:06:43.777117 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m17:06:43.777640 [info ] [MainThread]: 
+[0m17:06:43.778025 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=2
+[0m17:06:43.778853 [debug] [MainThread]: Command `dbt seed` succeeded at 17:06:43.778748 after 1.70 seconds
+[0m17:06:43.779211 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F265064AF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F264D2B530>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F264FBC7D0>]}
+[0m17:06:43.779573 [debug] [MainThread]: Flushing usage events
+[0m17:06:44.471067 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m17:06:55.322793 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B26E0980>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5AFFE0B90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B4F439D0>]}
+
+
+============================== 17:06:55.326182 | ca6f1ada-227e-4da9-941b-391415a1b1e7 ==============================
+[0m17:06:55.326182 [info ] [MainThread]: Running with dbt=1.12.0
+[0m17:06:55.326843 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'maximum_seed_size_mib': '1', 'printer_width': '80', 'write_json': 'True', 'empty': 'False', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\Utilisateur\\Documents\\courses\\observatoire_sirene\\mon_projet_dbt', 'invocation_command': 'dbt snapshot', 'hints_enabled': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'indirect_selection': 'eager', 'log_path': 'C:\\Users\\Utilisateur\\Documents\\courses\\observatoire_sirene\\mon_projet_dbt\\logs'}
+[0m17:06:55.498451 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'ca6f1ada-227e-4da9-941b-391415a1b1e7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B4EEDE00>]}
+[0m17:06:55.562134 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'ca6f1ada-227e-4da9-941b-391415a1b1e7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B076EF10>]}
+[0m17:06:55.563076 [info ] [MainThread]: Registered adapter: postgres=1.11.0
+[0m17:06:55.805498 [debug] [MainThread]: checksum: 60d4e7c5581444e26d365e42f856ff9ef6ae34e9f453452ecad212ad268af85c, vars: {}, profile: observatoire_sirene, target: dev, version: 1.12.0
+[0m17:06:55.979606 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m17:06:55.979943 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m17:06:55.980196 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m17:06:55.988583 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'ca6f1ada-227e-4da9-941b-391415a1b1e7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B54D7350>]}
+[0m17:06:56.189426 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\manifest.json
+[0m17:06:56.192550 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\semantic_manifest.json
+[0m17:06:56.209551 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\osi_document.json
+[0m17:06:56.218121 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'ca6f1ada-227e-4da9-941b-391415a1b1e7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B57ADE50>]}
+[0m17:06:56.218531 [info ] [MainThread]: Found 2 models, 3 data tests, 1 snapshot, 2 seeds, 2 sources, 477 macros
+[0m17:06:56.219003 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ca6f1ada-227e-4da9-941b-391415a1b1e7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B57E44B0>]}
+[0m17:06:56.221137 [info ] [MainThread]: 
+[0m17:06:56.221657 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m17:06:56.222103 [info ] [MainThread]: 
+[0m17:06:56.222628 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m17:06:56.223481 [debug] [ThreadPool]: Acquiring new postgres connection 'list_observatoire_sirene'
+[0m17:06:56.285259 [debug] [ThreadPool]: Using postgres connection "list_observatoire_sirene"
+[0m17:06:56.285621 [debug] [ThreadPool]: On list_observatoire_sirene: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "list_observatoire_sirene"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m17:06:56.285895 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:06:56.329437 [debug] [ThreadPool]: SQL status: SELECT 10 in 0.043 seconds
+[0m17:06:56.330579 [debug] [ThreadPool]: On list_observatoire_sirene: Close
+[0m17:06:56.335453 [debug] [ThreadPool]: Acquiring new postgres connection 'list_observatoire_sirene_observatoire'
+[0m17:06:56.340016 [debug] [ThreadPool]: Using postgres connection "list_observatoire_sirene_observatoire"
+[0m17:06:56.340340 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "list_observatoire_sirene_observatoire"} */
+select
+      'observatoire_sirene' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'observatoire'
+    union all
+    select distinct
+     'observatoire_sirene' as database,
+     proname as name,
+     ns.nspname as schema,
+     'function' as type
+    from pg_proc
+     join pg_namespace as ns on pronamespace = ns.oid
+    where ns.nspname ilike 'observatoire'
+  
+[0m17:06:56.340646 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:06:56.341286 [debug] [ThreadPool]: Acquiring new postgres connection 'list_observatoire_sirene_observatoire_observatoire'
+[0m17:06:56.342379 [debug] [ThreadPool]: Using postgres connection "list_observatoire_sirene_observatoire_observatoire"
+[0m17:06:56.342760 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire_observatoire: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "list_observatoire_sirene_observatoire_observatoire"} */
+select
+      'observatoire_sirene' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'observatoire_observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'observatoire_observatoire'
+    union all
+    select
+      'observatoire_sirene' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'observatoire_observatoire'
+    union all
+    select distinct
+     'observatoire_sirene' as database,
+     proname as name,
+     ns.nspname as schema,
+     'function' as type
+    from pg_proc
+     join pg_namespace as ns on pronamespace = ns.oid
+    where ns.nspname ilike 'observatoire_observatoire'
+  
+[0m17:06:56.343307 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:06:56.388830 [debug] [ThreadPool]: SQL status: SELECT 2 in 0.045 seconds
+[0m17:06:56.389992 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire_observatoire: ROLLBACK
+[0m17:06:56.390329 [debug] [ThreadPool]: SQL status: SELECT 8 in 0.050 seconds
+[0m17:06:56.391333 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire: ROLLBACK
+[0m17:06:56.391651 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire_observatoire: Close
+[0m17:06:56.391966 [debug] [ThreadPool]: On list_observatoire_sirene_observatoire: Close
+[0m17:06:56.397714 [debug] [MainThread]: Using postgres connection "master"
+[0m17:06:56.398105 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "connection_name": "master"} */
+select distinct
+        dependent_namespace.nspname as dependent_schema,
+        dependent_class.relname as dependent_name,
+        referenced_namespace.nspname as referenced_schema,
+        referenced_class.relname as referenced_name
+
+    -- Query for views: views are entries in pg_class with an entry in pg_rewrite, but we avoid
+    -- a seq scan on pg_rewrite by leveraging the fact there is an "internal" row in pg_depend for
+    -- the view...
+    from pg_class as dependent_class
+    join pg_namespace as dependent_namespace on dependent_namespace.oid = dependent_class.relnamespace
+    join pg_depend as dependent_depend on dependent_depend.refobjid = dependent_class.oid
+        and dependent_depend.classid = 'pg_rewrite'::regclass
+        and dependent_depend.refclassid = 'pg_class'::regclass
+        and dependent_depend.deptype = 'i'
+
+    -- ... and via pg_depend (that has a row per column, hence the need for "distinct" above, and
+    -- making sure to exclude the internal row to avoid a view appearing to depend on itself)...
+    join pg_depend as joining_depend on joining_depend.objid = dependent_depend.objid
+        and joining_depend.classid = 'pg_rewrite'::regclass
+        and joining_depend.refclassid = 'pg_class'::regclass
+        and joining_depend.refobjid != dependent_depend.refobjid
+
+    -- ... we can find the tables they query from in pg_class, but excluding system tables. Note we
+    -- don't need need to exclude _dependent_ system tables, because they only query from other
+    -- system tables, and so are automatically excluded by excluding _referenced_ system tables
+    join pg_class as referenced_class on referenced_class.oid = joining_depend.refobjid
+    join pg_namespace as referenced_namespace on referenced_namespace.oid = referenced_class.relnamespace
+        and referenced_namespace.nspname != 'information_schema'
+        and referenced_namespace.nspname not like 'pg\_%'
+
+    order by
+        dependent_schema, dependent_name, referenced_schema, referenced_name;
+[0m17:06:56.398518 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m17:06:56.439329 [debug] [MainThread]: SQL status: SELECT 1 in 0.041 seconds
+[0m17:06:56.440416 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ca6f1ada-227e-4da9-941b-391415a1b1e7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B5976340>]}
+[0m17:06:56.440835 [debug] [MainThread]: On master: ROLLBACK
+[0m17:06:56.441288 [debug] [MainThread]: On master: COMMIT
+[0m17:06:56.441590 [debug] [MainThread]: Using postgres connection "master"
+[0m17:06:56.441857 [debug] [MainThread]: On master: COMMIT
+[0m17:06:56.442306 [debug] [MainThread]: SQL status: COMMIT in 0.000 seconds
+[0m17:06:56.442596 [debug] [MainThread]: On master: Close
+[0m17:06:56.445845 [debug] [Thread-1 (]: Began running node snapshot.mon_projet_dbt.snap_etat
+[0m17:06:56.446351 [info ] [Thread-1 (]: 1 of 1 START snapshot observatoire.snap_etat ................................... [RUN]
+[0m17:06:56.446984 [debug] [Thread-1 (]: Acquiring new postgres connection 'snapshot.mon_projet_dbt.snap_etat'
+[0m17:06:56.447330 [debug] [Thread-1 (]: Began compiling node snapshot.mon_projet_dbt.snap_etat
+[0m17:06:56.453463 [debug] [Thread-1 (]: Writing injected SQL for node "snapshot.mon_projet_dbt.snap_etat"
+[0m17:06:56.454235 [debug] [Thread-1 (]: Began executing node snapshot.mon_projet_dbt.snap_etat
+[0m17:06:56.505298 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:06:56.505711 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+select * from (
+        select etat, code_ape from (
+                
+
+select siret, etat, code_ape from "observatoire_sirene"."observatoire"."etats_demo"
+            ) subq
+    ) as __dbt_sbq
+    where false
+    limit 0
+
+    
+[0m17:06:56.506048 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m17:06:56.543863 [debug] [Thread-1 (]: SQL status: SELECT 0 in 0.038 seconds
+[0m17:06:56.555732 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:06:56.556137 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "observatoire_sirene".INFORMATION_SCHEMA.columns
+      where table_name = 'snap_etat'
+        
+        and table_schema = 'observatoire'
+        
+      order by ordinal_position
+
+  
+[0m17:06:56.564989 [debug] [Thread-1 (]: SQL status: SELECT 12 in 0.008 seconds
+[0m17:06:56.571860 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:06:56.572244 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "observatoire_sirene".INFORMATION_SCHEMA.columns
+      where table_name = 'snap_etat'
+        
+        and table_schema = 'observatoire'
+        
+      order by ordinal_position
+
+  
+[0m17:06:56.575242 [debug] [Thread-1 (]: SQL status: SELECT 12 in 0.003 seconds
+[0m17:06:56.622675 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:06:56.623182 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+        
+  
+    
+
+  create temporary table "snap_etat__dbt_tmp170656615473"
+  
+  
+    as
+  
+  (
+    
+    
+    with snapshot_query as (
+
+        
+
+select siret, etat, code_ape from "observatoire_sirene"."observatoire"."etats_demo"
+
+    ),
+
+    snapshotted_data as (
+
+        select *, 
+    
+        siret as dbt_unique_key
+    
+
+        from "observatoire_sirene"."observatoire"."snap_etat"
+        where
+            
+                dbt_valid_to is null
+            
+
+    ),
+
+    insertions_source_data as (
+
+        select *, 
+    
+        siret as dbt_unique_key
+    
+,
+            now()::timestamp without time zone as dbt_updated_at,
+            now()::timestamp without time zone as dbt_valid_from,
+            
+  
+  coalesce(nullif(now()::timestamp without time zone, now()::timestamp without time zone), null)
+  as dbt_valid_to
+,
+            md5(coalesce(cast(siret as varchar ), '')
+         || '|' || coalesce(cast(now()::timestamp without time zone as varchar ), '')
+        ) as dbt_scd_id
+
+        from snapshot_query
+    ),
+
+    updates_source_data as (
+
+        select *, 
+    
+        siret as dbt_unique_key
+    
+,
+            now()::timestamp without time zone as dbt_updated_at,
+            now()::timestamp without time zone as dbt_valid_from,
+            now()::timestamp without time zone as dbt_valid_to
+
+        from snapshot_query
+    ),
+
+    insertions as (
+
+        select
+            'insert' as dbt_change_type,
+            source_data.*
+
+        from insertions_source_data as source_data
+        left outer join snapshotted_data
+            on 
+    
+        snapshotted_data.dbt_unique_key = source_data.dbt_unique_key
+    
+
+            where 
+    
+        snapshotted_data.dbt_unique_key is null
+    
+
+            or (
+    
+        snapshotted_data.dbt_unique_key is not null
+    
+ and (
+               (snapshotted_data."etat" != source_data."etat"
+        or
+        (
+            ((snapshotted_data."etat" is null) and not (source_data."etat" is null))
+            or
+            ((not snapshotted_data."etat" is null) and (source_data."etat" is null))
+        ) or snapshotted_data."code_ape" != source_data."code_ape"
+        or
+        (
+            ((snapshotted_data."code_ape" is null) and not (source_data."code_ape" is null))
+            or
+            ((not snapshotted_data."code_ape" is null) and (source_data."code_ape" is null))
+        ))
+            )
+
+        )
+
+    ),
+
+    updates as (
+
+        select
+            'update' as dbt_change_type,
+            source_data.*,
+            snapshotted_data.dbt_scd_id
+
+        from updates_source_data as source_data
+        join snapshotted_data
+            on 
+    
+        snapshotted_data.dbt_unique_key = source_data.dbt_unique_key
+    
+
+        where (
+            (snapshotted_data."etat" != source_data."etat"
+        or
+        (
+            ((snapshotted_data."etat" is null) and not (source_data."etat" is null))
+            or
+            ((not snapshotted_data."etat" is null) and (source_data."etat" is null))
+        ) or snapshotted_data."code_ape" != source_data."code_ape"
+        or
+        (
+            ((snapshotted_data."code_ape" is null) and not (source_data."code_ape" is null))
+            or
+            ((not snapshotted_data."code_ape" is null) and (source_data."code_ape" is null))
+        ))
+        )
+    )
+
+    select * from insertions
+    union all
+    select * from updates
+
+  );
+  
+    
+[0m17:07:01.784998 [debug] [Thread-1 (]: SQL status: SELECT 4 in 5.161 seconds
+[0m17:07:01.786814 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.787156 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from INFORMATION_SCHEMA.columns
+      where table_name = 'snap_etat__dbt_tmp170656615473'
+        
+      order by ordinal_position
+
+  
+[0m17:07:01.790218 [debug] [Thread-1 (]: SQL status: SELECT 9 in 0.003 seconds
+[0m17:07:01.792208 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.792546 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "observatoire_sirene".INFORMATION_SCHEMA.columns
+      where table_name = 'snap_etat'
+        
+        and table_schema = 'observatoire'
+        
+      order by ordinal_position
+
+  
+[0m17:07:01.795332 [debug] [Thread-1 (]: SQL status: SELECT 12 in 0.002 seconds
+[0m17:07:01.797266 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.797599 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from INFORMATION_SCHEMA.columns
+      where table_name = 'snap_etat__dbt_tmp170656615473'
+        
+      order by ordinal_position
+
+  
+[0m17:07:01.799995 [debug] [Thread-1 (]: SQL status: SELECT 9 in 0.002 seconds
+[0m17:07:01.801778 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.802107 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "observatoire_sirene".INFORMATION_SCHEMA.columns
+      where table_name = 'snap_etat'
+        
+        and table_schema = 'observatoire'
+        
+      order by ordinal_position
+
+  
+[0m17:07:01.805094 [debug] [Thread-1 (]: SQL status: SELECT 12 in 0.003 seconds
+[0m17:07:01.810285 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.810633 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from INFORMATION_SCHEMA.columns
+      where table_name = 'snap_etat__dbt_tmp170656615473'
+        
+      order by ordinal_position
+
+  
+[0m17:07:01.813123 [debug] [Thread-1 (]: SQL status: SELECT 9 in 0.002 seconds
+[0m17:07:01.826240 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.826724 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+select * from (
+        
+    
+    with snapshot_query as (
+
+        
+
+select siret, etat, code_ape from "observatoire_sirene"."observatoire"."etats_demo"
+
+    ),
+
+    snapshotted_data as (
+
+        select *, 
+    
+        siret as dbt_unique_key
+    
+
+        from "observatoire_sirene"."observatoire"."snap_etat"
+        where
+            
+                dbt_valid_to is null
+            
+
+    ),
+
+    insertions_source_data as (
+
+        select *, 
+    
+        siret as dbt_unique_key
+    
+,
+            now()::timestamp without time zone as dbt_updated_at,
+            now()::timestamp without time zone as dbt_valid_from,
+            
+  
+  coalesce(nullif(now()::timestamp without time zone, now()::timestamp without time zone), null)
+  as dbt_valid_to
+,
+            md5(coalesce(cast(siret as varchar ), '')
+         || '|' || coalesce(cast(now()::timestamp without time zone as varchar ), '')
+        ) as dbt_scd_id
+
+        from snapshot_query
+    ),
+
+    updates_source_data as (
+
+        select *, 
+    
+        siret as dbt_unique_key
+    
+,
+            now()::timestamp without time zone as dbt_updated_at,
+            now()::timestamp without time zone as dbt_valid_from,
+            now()::timestamp without time zone as dbt_valid_to
+
+        from snapshot_query
+    ),
+
+    insertions as (
+
+        select
+            'insert' as dbt_change_type,
+            source_data.*
+
+        from insertions_source_data as source_data
+        left outer join snapshotted_data
+            on 
+    
+        snapshotted_data.dbt_unique_key = source_data.dbt_unique_key
+    
+
+            where 
+    
+        snapshotted_data.dbt_unique_key is null
+    
+
+            or (
+    
+        snapshotted_data.dbt_unique_key is not null
+    
+ and (
+               (snapshotted_data."etat" != source_data."etat"
+        or
+        (
+            ((snapshotted_data."etat" is null) and not (source_data."etat" is null))
+            or
+            ((not snapshotted_data."etat" is null) and (source_data."etat" is null))
+        ) or snapshotted_data."code_ape" != source_data."code_ape"
+        or
+        (
+            ((snapshotted_data."code_ape" is null) and not (source_data."code_ape" is null))
+            or
+            ((not snapshotted_data."code_ape" is null) and (source_data."code_ape" is null))
+        ))
+            )
+
+        )
+
+    ),
+
+    updates as (
+
+        select
+            'update' as dbt_change_type,
+            source_data.*,
+            snapshotted_data.dbt_scd_id
+
+        from updates_source_data as source_data
+        join snapshotted_data
+            on 
+    
+        snapshotted_data.dbt_unique_key = source_data.dbt_unique_key
+    
+
+        where (
+            (snapshotted_data."etat" != source_data."etat"
+        or
+        (
+            ((snapshotted_data."etat" is null) and not (source_data."etat" is null))
+            or
+            ((not snapshotted_data."etat" is null) and (source_data."etat" is null))
+        ) or snapshotted_data."code_ape" != source_data."code_ape"
+        or
+        (
+            ((snapshotted_data."code_ape" is null) and not (source_data."code_ape" is null))
+            or
+            ((not snapshotted_data."code_ape" is null) and (source_data."code_ape" is null))
+        ))
+        )
+    )
+
+    select * from insertions
+    union all
+    select * from updates
+
+    ) as __dbt_sbq
+    where false
+    limit 0
+
+[0m17:07:01.827626 [debug] [Thread-1 (]: SQL status: SELECT 0 in 0.000 seconds
+[0m17:07:01.830506 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.830835 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+select * from (
+        select now()::timestamp without time zone as dbt_snapshot_time
+    ) as __dbt_sbq
+    where false
+    limit 0
+
+[0m17:07:01.831394 [debug] [Thread-1 (]: SQL status: SELECT 0 in 0.000 seconds
+[0m17:07:01.831884 [debug] [Thread-1 (]: Writing runtime sql for node "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.832904 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:01.833270 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire_sirene", "target_name": "dev", "node_id": "snapshot.mon_projet_dbt.snap_etat"} */
+
+      update "observatoire_sirene"."observatoire"."snap_etat"
+    set dbt_valid_to = DBT_INTERNAL_SOURCE.dbt_valid_to
+    from "snap_etat__dbt_tmp170656615473" as DBT_INTERNAL_SOURCE
+    where DBT_INTERNAL_SOURCE.dbt_scd_id::text = "observatoire_sirene"."observatoire"."snap_etat".dbt_scd_id::text
+      and DBT_INTERNAL_SOURCE.dbt_change_type::text in ('update'::text, 'delete'::text)
+      
+        and "observatoire_sirene"."observatoire"."snap_etat".dbt_valid_to is null;
+      
+
+
+    insert into "observatoire_sirene"."observatoire"."snap_etat" ("siret", "etat", "code_ape", "dbt_updated_at", "dbt_valid_from", "dbt_valid_to", "dbt_scd_id")
+    select DBT_INTERNAL_SOURCE."siret",DBT_INTERNAL_SOURCE."etat",DBT_INTERNAL_SOURCE."code_ape",DBT_INTERNAL_SOURCE."dbt_updated_at",DBT_INTERNAL_SOURCE."dbt_valid_from",DBT_INTERNAL_SOURCE."dbt_valid_to",DBT_INTERNAL_SOURCE."dbt_scd_id"
+    from "snap_etat__dbt_tmp170656615473" as DBT_INTERNAL_SOURCE
+    where DBT_INTERNAL_SOURCE.dbt_change_type::text = 'insert'::text;
+
+  
+[0m17:07:03.575633 [debug] [Thread-1 (]: SQL status: INSERT 0 2 in 1.742 seconds
+[0m17:07:03.590557 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: COMMIT
+[0m17:07:03.590924 [debug] [Thread-1 (]: Using postgres connection "snapshot.mon_projet_dbt.snap_etat"
+[0m17:07:03.591237 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: COMMIT
+[0m17:07:03.596179 [debug] [Thread-1 (]: SQL status: COMMIT in 0.005 seconds
+[0m17:07:03.600489 [debug] [Thread-1 (]: On snapshot.mon_projet_dbt.snap_etat: Close
+[0m17:07:03.602914 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ca6f1ada-227e-4da9-941b-391415a1b1e7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B59C6450>]}
+[0m17:07:03.603929 [info ] [Thread-1 (]: 1 of 1 OK snapshotted observatoire.snap_etat ................................... [[32mINSERT 0 2[0m in 7.15s]
+[0m17:07:03.604939 [debug] [Thread-1 (]: Finished running node snapshot.mon_projet_dbt.snap_etat
+[0m17:07:03.606899 [debug] [MainThread]: On master: COMMIT
+[0m17:07:03.607366 [debug] [MainThread]: Using postgres connection "master"
+[0m17:07:03.607810 [debug] [MainThread]: On master: COMMIT
+[0m17:07:03.608080 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m17:07:03.646462 [debug] [MainThread]: SQL status: COMMIT in 0.038 seconds
+[0m17:07:03.646838 [debug] [MainThread]: On master: Close
+[0m17:07:03.647284 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m17:07:03.647548 [debug] [MainThread]: Connection 'list_observatoire_sirene' was properly closed.
+[0m17:07:03.647854 [debug] [MainThread]: Connection 'list_observatoire_sirene_observatoire' was properly closed.
+[0m17:07:03.648111 [debug] [MainThread]: Connection 'list_observatoire_sirene_observatoire_observatoire' was properly closed.
+[0m17:07:03.648355 [debug] [MainThread]: Connection 'snapshot.mon_projet_dbt.snap_etat' was properly closed.
+[0m17:07:03.648645 [info ] [MainThread]: 
+[0m17:07:03.649147 [info ] [MainThread]: Finished running 1 snapshot in 0 hours 0 minutes and 7.43 seconds (7.43s).
+[0m17:07:03.649994 [debug] [MainThread]: Command end result
+[0m17:07:03.680844 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\manifest.json
+[0m17:07:03.683884 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\semantic_manifest.json
+[0m17:07:03.686669 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\osi_document.json
+[0m17:07:03.693531 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\Utilisateur\Documents\courses\observatoire_sirene\mon_projet_dbt\target\run_results.json
+[0m17:07:03.693857 [info ] [MainThread]: 
+[0m17:07:03.694309 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m17:07:03.694753 [info ] [MainThread]: 
+[0m17:07:03.695139 [info ] [MainThread]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=1
+[0m17:07:03.695963 [debug] [MainThread]: Command `dbt snapshot` succeeded at 17:07:03.695859 after 8.51 seconds
+[0m17:07:03.696323 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B5BDB540>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5B57CC9B0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001E5AD245130>]}
+[0m17:07:03.696674 [debug] [MainThread]: Flushing usage events
+[0m17:07:04.434999 [debug] [MainThread]: An error was encountered while trying to flush usage events
