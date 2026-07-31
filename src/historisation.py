@@ -2,15 +2,19 @@ import os
 from dotenv import load_dotenv
 import duckdb
 import config.config as config
+from typing import Union
 from pathlib import Path
+from .utils import QueryBuilder
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
 
-def push_scd2(schema_name: str, table_name: str, test: bool = False):
+def push_scd2(schema_name: str, table_name: str, code_dept: Union[str, list[str], None] = None, test: bool = False):
     
     target_schema = config.get_schema(test)
     db_url = os.getenv("DATABASE_URL")
+    
+    where_sql = QueryBuilder.build_dept_where_clause(code_dept=code_dept)
 
     query = f"""
     INSTALL postgres;
@@ -54,6 +58,7 @@ def push_scd2(schema_name: str, table_name: str, test: bool = False):
             COALESCE(CAST(UPPER(libelleCommuneEtablissement) AS VARCHAR), 'Inconnu / Non renseigné') as libelle_commune,
             COALESCE(CAST(LEFT(codeCommuneEtablissement, 2) AS VARCHAR(2)), '99') as code_departement
         FROM pg_db.{schema_name}.{table_name}
+        {where_sql}
     ),
     prepared AS (
         SELECT 

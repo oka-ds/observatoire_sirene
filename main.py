@@ -61,8 +61,8 @@ def main():
 
     total_time = time.perf_counter() - total_start
     print(f"\nIngestion (load_etab) : {time_load:.4f} s")
-    print(f"Historisation (scd2)  : {time_scd2:.4f} s")
-    print(f"Temps total           : {total_time:.4f} s")
+    print(f"Historisation (scd2) : {time_scd2:.4f} s")
+    print(f"Temps total : {total_time:.4f} s")
 
 if __name__ == "__main__":
     main()

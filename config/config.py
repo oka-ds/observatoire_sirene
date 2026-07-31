@@ -1,7 +1,4 @@
 from enum import StrEnum
-from dataclasses import dataclass
-from pathlib import Path
-from typing import List, Optional
 
 TABLE_NAME = "sirene_etablissement"
 TABLE_TEST_NAME = "test_sirene_etablissement"
@@ -24,7 +21,3 @@ class Schemas(StrEnum):
     warehouse = "observatoire"
     test = "test"
     public = "public"
-    
-# class Thread(StrEnum):
-#     schema = "thread"
-#     table = "etablissements"

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import config.config as config
 from pathlib import Path
+from typing import Union
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
@@ -121,13 +122,15 @@ class DatabaseManager:
             cur.execute(q)
             
 
-    def count_rows(self, schema_name: str, table_name: str) -> int:
+    def count_rows(self, schema_name: str, table_name: str, where_sql: str = None) -> int:
         with self.get_connection() as cur:
             q = f"""
-            SELECT COUNT(*) FROM {schema_name}.{table_name}
+                SELECT COUNT(*) FROM {schema_name}.{table_name}
+                {where_sql}
             """
             try:
                 cur.execute(q)
                 return cur.fetchone()[0]
             except psycopg2.errors.UndefinedTable:
                 return 0
+            
