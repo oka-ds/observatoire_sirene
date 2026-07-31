@@ -133,6 +133,13 @@ def push_scd2(schema_name: str, table_name: str, test: bool = False):
         code_tranche, effectif_libelle
     FROM scd2
     ON CONFLICT (code_tranche) DO NOTHING;
+
+    --purge de l'ancien histo des sirets recalculés
+    DELETE FROM pg_db.{target_schema}.{config.TablesObservatoire.FAIT_ETAB}
+    WHERE siret IN (
+    SELECT DISTINCT siret
+    FROM scd2
+    );
     
     DELETE FROM pg_db.{target_schema}.{config.TablesObservatoire.FAIT_ETAB}
     WHERE siret IN (SELECT DISTINCT siret FROM scd2);
