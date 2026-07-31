@@ -1,4 +1,6 @@
 import os
+import sys 
+
 from dotenv import load_dotenv
 import duckdb
 import tracemalloc
@@ -7,7 +9,7 @@ import config.config as config
 from pathlib import Path
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+load_dotenv(dotenv_path=env_path, override=True)
 
 def push_scd2(schema_name: str, table_name: str, test: bool = False):
     
