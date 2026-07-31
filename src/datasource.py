@@ -14,13 +14,13 @@ class DataSourceManager:
         self.etab_url = config.Urls.etablissements
         self.data_path = Path(data_dir)
         
-    def _test_apis(self) -> bool:
+    def _test_apis(self, timeout: int = 5) -> bool:
         try:
-            res_histo = requests.head(self.histo_url, timeout=5)
+            res_histo = requests.head(url=self.histo_url, timeout=timeout)
             if not res_histo.ok:
                 return False
                 
-            res_etab = requests.head(self.etab_url, timeout=5)
+            res_etab = requests.head(url=self.etab_url, timeout=timeout)
             if not res_etab.ok:
                 return False
                 

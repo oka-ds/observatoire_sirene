@@ -134,6 +134,9 @@ def push_scd2(schema_name: str, table_name: str, test: bool = False):
     FROM scd2
     ON CONFLICT (code_tranche) DO NOTHING;
     
+    DELETE FROM pg_db.{target_schema}.{config.TablesObservatoire.FAIT_ETAB}
+    WHERE siret IN (SELECT DISTINCT siret FROM scd2);
+    
     -- INSERT fact
     INSERT INTO pg_db.{target_schema}.{config.TablesObservatoire.FAIT_ETAB} (
         siret, valid_from, valid_to, is_current, etat, code_ape, 
